@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitSmart About Me Page</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#2563EB", // royal-blue
+            "background-light": "#F9FAFB", // gray-50
+            "background-dark": "#111827", // gray-900
+          },
+          fontFamily: {
+            display: ["Roboto", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .header-image {
+        -webkit-mask-image: linear-gradient(to top, transparent 0%, black 20%);
+        mask-image: linear-gradient(to top, transparent 0%, black 20%);
+    }
+  </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 antialiased">
+<div class="relative min-h-screen">
+<header class="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
+<div class="absolute inset-0">
+<img alt="Portrait of Bennie, founder of FitSmart" class="w-full h-full object-cover object-top header-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxS0NzC_ggOfbLOaFGp-GGarZ8TLZX79Pzy_xKBTRdRNDOjcnpo4zFYGdnIQsOenmmgfP4muFmFdQKLDf3PBcckRMw3d8SZZOZdlnA9u2MdkoowGjdRgbMY2g2XtLvpoHRHEFWWmjjZ-Bghs9N8D8k2ToYSplJL61eFWYtRd-9n7jCC_8KglOXIACUVYHen2KVQJ31b6mDUrc9s7x1M6OynPihJWYoCGsN7BMGWX58n1jUB1aB_Q1MIt8zDmnYeKi5qfZyt04DfGM"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-light via-background-light/70 to-transparent dark:from-background-dark dark:via-background-dark/70"></div>
+<div class="relative z-10 flex h-full items-end p-4 md:p-8 lg:p-12">
+<div class="max-w-4xl mx-auto text-center w-full pb-8 md:pb-16">
+<h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight">About Bennie</h1>
+<p class="mt-4 text-lg md:text-xl text-primary font-semibold">Founder &amp; Head Coach, FitSmart</p>
+</div>
+</div>
+</header>
+<main class="-mt-16 md:-mt-24 pb-24">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-10 lg:p-12">
+<div class="prose prose-lg max-w-none text-gray-600 dark:text-gray-300">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">The Athlete's Foundation</h2>
+<p>In the beginning, there was a field, a ball, and a dream. I didn't know it then, but every sprint, every drill, every moment of pushing past 'I can't' was building more than muscle—it was building a philosophy. Football taught me that discipline isn't restriction; it's the framework for freedom. That lesson became my north star.</p>
+<h2 class="mt-12 text-2xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">The Transition</h2>
+<p>When the final whistle blew on my playing days, I faced the question every athlete dreads: 'What now?' But here's what they don't tell you: the field was just the beginning. I realized my real purpose wasn't in the plays I memorized, but in the principles I lived by. The same focus that helped me read defenses could help others overcome their own obstacles. The resilience that carried me through fourth quarters could empower someone through their first month in the gym.</p>
+<blockquote class="my-12 p-6 border-l-4 border-primary bg-background-light dark:bg-background-dark rounded-r-lg">
+<p class="text-2xl md:text-3xl font-semibold italic text-gray-900 dark:text-white leading-snug">"I don't just train bodies—I translate athletic excellence into everyday achievement."</p>
+</blockquote>
+<h2 class="mt-12 text-2xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">The Coach's Mission</h2>
+<p>That's when FitSmart was born—not as a business plan, but as a translation. How do you take elite performance principles and make them accessible? How do you translate pro-level intensity into sustainable, everyday progress? The answer was simple: meet people where they are, but never leave them there.</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-gray-900 dark:bg-black text-gray-300">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="md:col-span-2 lg:col-span-1">
+<h3 class="text-lg font-bold text-white mb-4">Contact Us</h3>
+<address class="not-italic space-y-2 text-gray-400">
+<p>123 Fitness Lane, Muscle Beach, CA 90210</p>
+<p>
+<a class="hover:text-primary transition-colors" href="mailto:bennie@fitsmart.com">bennie@fitsmart.com</a>
+</p>
+<p>
+<a class="hover:text-primary transition-colors" href="tel:+1234567890">(123) 456-7890</a>
+</p>
+</address>
+<div class="flex space-x-4 mt-6">
+<a aria-label="Instagram" class="text-gray-400 hover:text-primary transition-colors" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266.058 1.644.07 4.85.07zm0-2.163c-3.273 0-3.663.014-4.943.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.67-.073 4.943s.014 3.663.072 4.943c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.67.073 4.943.073s3.663-.014 4.943-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.67.073-4.943s-.014-3.663-.072-4.943c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.67-.073-4.943-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"></path></svg>
+</a>
+<a aria-label="Facebook" class="text-gray-400 hover:text-primary transition-colors" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z"></path></svg>
+</a>
+<a aria-label="YouTube" class="text-gray-400 hover:text-primary transition-colors" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
+<ul class="space-y-2 text-gray-400">
+<li><a class="hover:text-primary transition-colors" href="#">Home</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">About Me</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Programs</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Testimonials</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div class="md:col-span-2 lg:col-span-2">
+<h3 class="text-lg font-bold text-white mb-4">Get fitness tips &amp; exclusive offers</h3>
+<p class="text-gray-400 mb-4">Join our newsletter and stay up to date.</p>
+<form action="#" class="flex flex-col sm:flex-row gap-2">
+<label class="sr-only" for="email-address">Email address</label>
+<input autocomplete="email" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" id="email-address" name="email" placeholder="Enter your email" required="" type="email"/>
+<button class="bg-primary text-white font-bold py-2 px-6 rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-primary" type="submit">
+Subscribe
+</button>
+</form>
+</div>
+</div>
+<div class="mt-8 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+<p>© 2024 FitSmart. All rights reserved.</p>
+<div class="flex space-x-4 mt-4 md:mt-0">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>

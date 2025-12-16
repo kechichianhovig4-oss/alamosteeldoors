@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitSmart About Me Page</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#2563EB",
+            "background-light": "#F9FAFB",
+            "background-dark": "#111827",
+          },
+          fontFamily: {
+            display: ["Roboto", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+          },
+        },
+      },
+    };
+</script>
+<style>
+  .header-image {
+      -webkit-mask-image: linear-gradient(to top, transparent 0%, black 20%);
+      mask-image: linear-gradient(to top, transparent 0%, black 20%);
+  }
+</style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 antialiased">
+<div class="relative min-h-screen">
+
+<header class="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
+  <div class="absolute inset-0">
+    <img 
+      alt="Portrait Background"
+      class="w-full h-full object-cover object-top header-image"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA14AAAP0CAYAAAC6X+16AAAAAXNSR0IArs4c6QA...iWtPv8TbPuy/bPdPoB+pVI/9wiwtD5mkgQCESM2CIAgM2fO3//f/8f//c/vv/3+"
+    />
+  </div>
+
+  <div class="absolute inset-0 bg-gradient-to-t from-background-light via-background-light/70 to-transparent dark:from-background-dark dark:via-background-dark/70"></div>
+
+  <div class="relative z-10 flex h-full items-end p-4 md:p-8 lg:p-12">
+    <div class="max-w-4xl mx-auto text-center w-full pb-8 md:pb-16">
+      <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight">About Bennie</h1>
+      <p class="mt-4 text-lg md:text-xl text-primary font-semibold">Founder & Head Coach, FitSmart</p>
+    </div>
+  </div>
+</header>
+
+<main class="-mt-16 md:-mt-24 pb-24">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-10 lg:p-12">
+      <div class="prose prose-lg max-w-none text-gray-600 dark:text-gray-300">
+
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">The Athlete's Foundation</h2>
+        <p>In the beginning, there was a field, a ball, and a dream. I didn't know it then, but every sprint, every drill, every moment of pushing past 'I can't' was building more than muscle—it was building a philosophy...</p>
+
+        <h2 class="mt-12 text-2xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">The Transition</h2>
+        <p>When the final whistle blew on my playing days, I faced the question every athlete dreads: 'What now?'...</p>
+
+        <blockquote class="my-12 p-6 border-l-4 border-primary bg-background-light dark:bg-background-dark rounded-r-lg">
+          <p class="text-2xl md:text-3xl font-semibold italic text-gray-900 dark:text-white leading-snug">
+            "I don't just train bodies—I translate athletic excellence into everyday achievement."
+          </p>
+        </blockquote>
+
+        <h2 class="mt-12 text-2xl font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">The Coach's Mission</h2>
+        <p>That's when FitSmart was born—not as a business plan, but as a translation...</p>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="bg-gray-900 dark:bg-black text-gray-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      <div class="md:col-span-2 lg:col-span-1">
+        <h3 class="text-lg font-bold text-white mb-4">Contact Us</h3>
+        <address class="not-italic space-y-2 text-gray-400">
+          <p>123 Fitness Lane, Muscle Beach, CA 90210</p>
+          <p><a href="mailto:bennie@fitsmart.com" class="hover:text-primary">bennie@fitsmart.com</a></p>
+          <p><a href="tel:+1234567890" class="hover:text-primary">(123) 456-7890</a></p>
+        </address>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-bold text-white mb-4">Quick Links</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><a class="hover:text-primary" href="#">Home</a></li>
+          <li><a class="hover:text-primary" href="#">About Me</a></li>
+          <li><a class="hover:text-primary" href="#">Programs</a></li>
+          <li><a class="hover:text-primary" href="#">Testimonials</a></li>
+          <li><a class="hover:text-primary" href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-2 lg:col-span-2">
+        <h3 class="text-lg font-bold text-white mb-4">Get fitness tips & exclusive offers</h3>
+        <p class="text-gray-400 mb-4">Join our newsletter and stay up to date.</p>
+        <form class="flex flex-col sm:flex-row gap-2">
+          <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md text-white"/>
+          <button class="bg-primary text-white font-bold py-2 px-6 rounded-md hover:bg-blue-700">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="mt-8 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between text-sm text-gray-400">
+      <p>© 2024 FitSmart. All rights reserved.</p>
+      <div class="flex space-x-4">
+        <a class="hover:text-primary" href="#">Privacy Policy</a>
+        <a class="hover:text-primary" href="#">Terms of Service</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
