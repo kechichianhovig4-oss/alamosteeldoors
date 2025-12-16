@@ -404,69 +404,72 @@ const Portfolio = () => {
         </main>
 
         {/* Footer */}
-        <footer className="bg-black text-white py-8 sm:py-12 border-t border-[#234832]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
-              {/* Brand */}
-              <div className="col-span-1 md:col-span-1">
-                <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                  <div className="flex size-7 sm:size-8 items-center justify-center rounded-full bg-[#2bee79]/20 text-[#2bee79]">
-                    <span className="material-symbols-outlined text-base sm:text-lg">door_front</span>
-                  </div>
-                  <Link 
-                    to="/" 
-                    onClick={() => handleNavClick('/')}
-                    className="text-base sm:text-lg font-bold"
-                  >
-                    Alamo Steel Doors
-                  </Link>
-                </div>
-                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
-                  Hand-forged steel doors that define luxury and security. Elevate your entrance today.
-                </p>
-              </div>
-
-              {/* Company Links */}
-              <div>
-                <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Company</h4>
-                <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
-                  <li><Link to="/About" onClick={() => handleNavClick('/About')} className="hover:text-[#2bee79] transition-colors">About Us</Link></li>
-                  <li><Link to="/Contact" onClick={() => handleNavClick('/Contact')} className="hover:text-[#2bee79] transition-colors">Contact</Link></li>
-                  <li><Link to="/faq" onClick={() => handleNavClick('/faq')} className="hover:text-[#2bee79] transition-colors">FAQ</Link></li>
-                </ul>
-              </div>
-
-              {/* Contact Info */}
-              <div>
-                <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Contact</h4>
-                <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
-                  <li className="flex items-start gap-2">
-                    <span className="material-symbols-outlined text-[#2bee79] text-sm sm:text-base mt-0.5">location_on</span>
-                    <span>123 Forge Avenue,<br/>Austin, TX 78701</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#2bee79] text-sm sm:text-base">call</span>
-                    (555) 123-4567
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#2bee79] text-sm sm:text-base">mail</span>
-                    hello@alamosteeldoors.com
-                  </li>
-                </ul>
-              </div>
-            </div>
-            
-            {/* Footer Bottom */}
-            <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
-              <p className="text-gray-500 text-xs sm:text-sm">© 2025 Alamo Steel Doors. All rights reserved.</p>
-              <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
-                <a className="hover:text-white" href="#">Privacy Policy</a>
-                <a className="hover:text-white" href="#">Terms of Service</a>
-              </div>
-            </div>
-          </div>
-        </footer>
-
+           <footer className="bg-black text-white py-8 sm:py-12 border-t border-[#234832]">
+                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
+                                 {/* Brand */}
+                                 <div className="col-span-1 md:col-span-1">
+                                   <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                                     <div className="flex size-7 sm:size-8 items-center justify-center rounded-full bg-primary/20 text-primary">
+                                       <span className="material-symbols-outlined text-base sm:text-lg">door_front</span>
+                                     </div>
+                                     <Link to="/" className="text-base sm:text-lg font-bold">Alamo Steel Doors</Link>
+                                   </div>
+                                   <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
+                                     Hand-forged steel doors that define luxury and security. Elevate your entrance today.
+                                   </p>
+                                   <div className="flex gap-3 sm:gap-4">
+                                     
+                                      
+                                   
+                                   </div>
+                                 </div>
+               
+                                 {/* Portfolio Links */}
+                                 <div>
+                                   
+                                 </div>
+               
+                                 {/* Company Links */}
+                                 <div>
+                                   <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Company</h4>
+                                   <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
+                 <li><Link to="/About" className="hover:text-primary transition-colors">About Us</Link></li>
+                 <li><Link to="/Contact" className="hover:text-primary transition-colors">Contact</Link></li>
+                 <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
+               </ul>
+                                 </div>
+               
+                                 {/* Contact Info */}
+                                 <div>
+                                   <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Contact</h4>
+                                   <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
+                                     <li className="flex items-start gap-2">
+                                       <span className="material-symbols-outlined text-primary text-sm sm:text-base mt-0.5">location_on</span>
+                                       <span>123 Forge Avenue,<br/>Austin, TX 78701</span>
+                                     </li>
+                                     <li className="flex items-center gap-2">
+                                       <span className="material-symbols-outlined text-primary text-sm sm:text-base">call</span>
+                                       (555) 123-4567
+                                     </li>
+                                     <li className="flex items-center gap-2">
+                                       <span className="material-symbols-outlined text-primary text-sm sm:text-base">mail</span>
+                                       hello@alamosteeldoors.com
+                                     </li>
+                                   </ul>
+                                 </div>
+                               </div>
+                               
+                               {/* Footer Bottom */}
+                               <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
+                                 <p className="text-gray-500 text-xs sm:text-sm">© 2025 Alamo Steel Doors. All rights reserved.</p>
+                                 <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
+                                   <a className="hover:text-white" href="#">Privacy Policy</a>
+                                   <a className="hover:text-white" href="#">Terms of Service</a>
+                                 </div>
+                               </div>
+                             </div>
+                           </footer>
         {/* Sticky FAB (Mobile Only) */}
         <button 
           onClick={openModal}
