@@ -142,13 +142,7 @@ const Home = () => {
                 >
                   FAQ
                 </Link>
-                <Link 
-                  to="/help-center" 
-                  onClick={() => handleNavClick('/help-center')}
-                  className="block px-4 py-3 text-white text-sm font-medium leading-normal hover:text-primary transition-colors border-t border-[#234832]"
-                >
-                  Help Center
-                </Link>
+               
                 <Link 
                   to="/Contact" 
                   onClick={() => handleNavClick('/Contact')}
