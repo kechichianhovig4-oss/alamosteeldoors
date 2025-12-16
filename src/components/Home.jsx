@@ -5,9 +5,11 @@ import ModalContactForm from './Modalcontactform';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
     <>
@@ -79,8 +81,13 @@ const Home = () => {
               </div>
               <div className="flex flex-1 justify-end gap-4 sm:gap-8 items-center">
                 {/* Mobile menu button */}
-                <button className="md:hidden flex items-center justify-center size-8 text-gray-900 dark:text-white">
-                  <span className="material-symbols-outlined text-xl">menu</span>
+                <button 
+                  onClick={toggleMobileMenu}
+                  className="md:hidden flex items-center justify-center size-8 text-gray-900 dark:text-white"
+                >
+                  <span className="material-symbols-outlined text-xl">
+                    {isMobileMenuOpen ? 'close' : 'menu'}
+                  </span>
                 </button>
                 
                 {/* Desktop Navigation with React Router Links */}
@@ -110,20 +117,87 @@ const Home = () => {
                     FAQ
                   </Link>
                   <Link 
+                    to="/help-center" 
+                    className="text-sm font-medium leading-normal hover:text-primary transition-colors"
+                  >
+                    Help Center
+                  </Link>
+                  <Link 
                     to="/Contact" 
                     className="text-sm font-medium leading-normal hover:text-primary transition-colors"
                   >
                     Contact
                   </Link>
                 </div>
-                <button 
-                  onClick={openModal}
-                  className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-9 sm:h-10 px-4 sm:px-6 bg-primary text-[#112218] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-green-400 transition-all hover:shadow-[0_0_15px_rgba(43,238,121,0.5)]"
-                >
-                  <span className="truncate">Get a Quote</span>
-                </button>
+                <div className="hidden md:block">
+                  <button 
+                    onClick={openModal}
+                    className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-9 sm:h-10 px-4 sm:px-6 bg-primary text-[#112218] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-green-400 transition-all hover:shadow-[0_0_15px_rgba(43,238,121,0.5)]"
+                  >
+                    <span className="truncate">Get a Quote</span>
+                  </button>
+                </div>
               </div>
             </header>
+
+            {/* Mobile Menu Dropdown */}
+            <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} bg-background-light dark:bg-[#112218] border-b border-solid border-gray-200 dark:border-[#234832] px-4 py-3`}>
+              <div className="flex flex-col space-y-3">
+                <Link 
+                  to="/" 
+                  className="text-sm font-medium leading-normal py-2 text-primary hover:text-green-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/Portfolio" 
+                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Portfolio
+                </Link>
+                <Link 
+                  to="/About" 
+                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                </Link>
+                <Link 
+                  to="/faq" 
+                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  FAQ
+                </Link>
+                <Link 
+                  to="/help-center" 
+                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Help Center
+                </Link>
+                <Link 
+                  to="/Contact" 
+                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+                <div className="pt-2">
+                  <button 
+                    onClick={() => {
+                      openModal();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary text-[#112218] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-green-400 transition-all"
+                  >
+                    <span className="truncate">Get a Quote</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Main Content */}
@@ -173,6 +247,50 @@ const Home = () => {
                 <span className="material-symbols-outlined text-2xl sm:text-3xl">keyboard_arrow_down</span>
               </div>
             </div>
+
+            {/* Features Section */}
+            <div className="w-full bg-[#152a1e] py-16 sm:py-24 border-y border-[#1e3a2b]">
+              <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+                <div className="text-center mb-8 sm:mb-16">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-white">Why Choose Alamo Steel?</h2>
+                  <div className="h-1 w-16 sm:w-20 bg-primary mx-auto rounded-full"></div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+                  {[
+                    {
+                      icon: 'verified_user',
+                      title: 'Unmatched Security',
+                      desc: 'Heavy-duty 12-gauge steel construction ensures maximum protection for your home and family.'
+                    },
+                    {
+                      icon: 'design_services',
+                      title: 'Custom Design',
+                      desc: 'From modern pivot doors to classic scrolls, we bring your unique vision to life.'
+                    },
+                    {
+                      icon: 'energy_savings_leaf',
+                      title: 'Energy Efficient',
+                      desc: 'Thermal breaks and dual-pane tempered glass keep your home insulated and comfortable.'
+                    },
+                    {
+                      icon: 'build',
+                      title: 'Easy Installation',
+                      desc: 'Pre-hung units with integrated thresholds make installation straightforward and precise.'
+                    }
+                  ].map((feature, index) => (
+                    <div key={index} className="group p-4 sm:p-6 lg:p-8 rounded-xl sm:rounded-2xl bg-[#112218] border border-[#234832] hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                      <div className="size-10 sm:size-12 lg:size-14 rounded-lg sm:rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary group-hover:text-[#112218] transition-colors">
+                        <span className="material-symbols-outlined text-2xl sm:text-3xl">{feature.icon}</span>
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-white">{feature.title}</h3>
+                      <p className="text-sm sm:text-base text-gray-400 leading-relaxed">{feature.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* REST OF YOUR CODE CONTINUES HERE... */}
 
             {/* Features Section */}
             <div className="w-full bg-[#152a1e] py-16 sm:py-24 border-y border-[#1e3a2b]">
