@@ -1,5 +1,5 @@
 // components/Home.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ModalContactForm from './Modalcontactform';
 
@@ -10,6 +10,19 @@ const Home = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  // Close mobile menu when clicking outside or on link
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('.mobile-menu-container') && 
+          !event.target.closest('.mobile-menu-button')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isMobileMenuOpen]);
 
   return (
     <>
@@ -61,12 +74,21 @@ const Home = () => {
           .animate-fade-in-up {
             animation: fade-in-up 0.5s ease-out;
           }
+          
+          /* Fix for dark mode extension compatibility */
+          html.dark .dark-mode-fix {
+            background-color: #112218 !important;
+          }
+          
+          html.dark body {
+            background-color: #112218 !important;
+          }
         `
       }} />
       
-      <div className="dark min-h-screen">
-        <div className="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100 antialiased overflow-x-hidden">
-          <div className="relative flex w-full flex-col">
+      <div className="dark min-h-screen dark-mode-fix">
+        <div className="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100 antialiased overflow-x-hidden dark-mode-fix">
+          <div className="relative flex w-full flex-col dark-mode-fix">
             {/* Header - Responsive */}
             <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-[#234832] px-4 sm:px-6 lg:px-10 py-3 sm:py-4 bg-background-light dark:bg-[#112218] z-50 sticky top-0">
               <div className="flex items-center gap-2 sm:gap-4 text-gray-900 dark:text-white">
@@ -79,119 +101,121 @@ const Home = () => {
                   Alamo Steel Doors
                 </Link>
               </div>
+              
               <div className="flex flex-1 justify-end gap-4 sm:gap-8 items-center">
-                {/* Mobile menu button */}
-                <button 
-                  onClick={toggleMobileMenu}
-                  className="md:hidden flex items-center justify-center size-8 text-gray-900 dark:text-white"
-                >
-                  <span className="material-symbols-outlined text-xl">
-                    {isMobileMenuOpen ? 'close' : 'menu'}
-                  </span>
-                </button>
-                
                 {/* Desktop Navigation with React Router Links */}
-                <div className="hidden md:flex items-center gap-6 lg:gap-9">
+                <div className="hidden md:flex items-center gap-4 lg:gap-6">
                   <Link 
                     to="/" 
-                    className="text-sm font-medium leading-normal text-primary hover:text-green-400 transition-colors"
+                    className="text-sm font-medium leading-normal text-primary hover:text-green-400 transition-colors px-2 py-1"
                   >
                     Home
                   </Link>
                   <Link 
                     to="/Portfolio" 
-                    className="text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    className="text-sm font-medium leading-normal hover:text-primary transition-colors px-2 py-1"
                   >
                     Portfolio
                   </Link>
                   <Link 
                     to="/About" 
-                    className="text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    className="text-sm font-medium leading-normal hover:text-primary transition-colors px-2 py-1"
                   >
                     About
                   </Link>
                   <Link 
                     to="/faq" 
-                    className="text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    className="text-sm font-medium leading-normal hover:text-primary transition-colors px-2 py-1"
                   >
                     FAQ
                   </Link>
                   <Link 
                     to="/help-center" 
-                    className="text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    className="text-sm font-medium leading-normal hover:text-primary transition-colors px-2 py-1"
                   >
                     Help Center
                   </Link>
                   <Link 
                     to="/Contact" 
-                    className="text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    className="text-sm font-medium leading-normal hover:text-primary transition-colors px-2 py-1"
                   >
                     Contact
                   </Link>
-                </div>
-                <div className="hidden md:block">
+                  
+                  {/* Get a Quote Button - Now part of desktop navigation */}
                   <button 
                     onClick={openModal}
-                    className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-9 sm:h-10 px-4 sm:px-6 bg-primary text-[#112218] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-green-400 transition-all hover:shadow-[0_0_15px_rgba(43,238,121,0.5)]"
+                    className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-9 sm:h-10 px-4 sm:px-6 bg-primary text-[#112218] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-green-400 transition-all hover:shadow-[0_0_15px_rgba(43,238,121,0.5)] ml-2"
                   >
                     <span className="truncate">Get a Quote</span>
                   </button>
                 </div>
+                
+                {/* Mobile menu button */}
+                <button 
+                  onClick={toggleMobileMenu}
+                  className="md:hidden flex items-center justify-center size-10 text-gray-900 dark:text-white rounded-lg hover:bg-gray-800/20 transition-colors mobile-menu-button"
+                  aria-label="Toggle mobile menu"
+                >
+                  <span className="material-symbols-outlined text-2xl">
+                    {isMobileMenuOpen ? 'close' : 'menu'}
+                  </span>
+                </button>
               </div>
             </header>
 
-            {/* Mobile Menu Dropdown */}
-            <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} bg-background-light dark:bg-[#112218] border-b border-solid border-gray-200 dark:border-[#234832] px-4 py-3`}>
-              <div className="flex flex-col space-y-3">
+            {/* Mobile Menu Dropdown - Fixed to stay open when clicked */}
+            <div className={`mobile-menu-container md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} bg-background-light dark:bg-[#112218] border-b border-solid border-gray-200 dark:border-[#234832] z-40`}>
+              <div className="flex flex-col px-4 py-3">
                 <Link 
                   to="/" 
-                  className="text-sm font-medium leading-normal py-2 text-primary hover:text-green-400 transition-colors"
+                  className="text-sm font-medium leading-normal py-3 px-2 text-primary hover:text-green-400 transition-colors border-b border-gray-800/30 dark:border-[#234832]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Home
                 </Link>
                 <Link 
                   to="/Portfolio" 
-                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  className="text-sm font-medium leading-normal py-3 px-2 hover:text-primary transition-colors border-b border-gray-800/30 dark:border-[#234832]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Portfolio
                 </Link>
                 <Link 
                   to="/About" 
-                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  className="text-sm font-medium leading-normal py-3 px-2 hover:text-primary transition-colors border-b border-gray-800/30 dark:border-[#234832]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   About
                 </Link>
                 <Link 
                   to="/faq" 
-                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  className="text-sm font-medium leading-normal py-3 px-2 hover:text-primary transition-colors border-b border-gray-800/30 dark:border-[#234832]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   FAQ
                 </Link>
                 <Link 
                   to="/help-center" 
-                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  className="text-sm font-medium leading-normal py-3 px-2 hover:text-primary transition-colors border-b border-gray-800/30 dark:border-[#234832]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Help Center
                 </Link>
                 <Link 
                   to="/Contact" 
-                  className="text-sm font-medium leading-normal py-2 hover:text-primary transition-colors"
+                  className="text-sm font-medium leading-normal py-3 px-2 hover:text-primary transition-colors border-b border-gray-800/30 dark:border-[#234832]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Contact
                 </Link>
-                <div className="pt-2">
+                <div className="pt-3 pb-2">
                   <button 
                     onClick={() => {
                       openModal();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary text-[#112218] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-green-400 transition-all"
+                    className="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-4 bg-primary text-[#112218] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-green-400 transition-all hover:shadow-[0_0_15px_rgba(43,238,121,0.5)]"
                   >
                     <span className="truncate">Get a Quote</span>
                   </button>
@@ -201,9 +225,9 @@ const Home = () => {
           </div>
 
           {/* Main Content */}
-          <main className="flex flex-col items-center justify-center w-full">
+          <main className="flex flex-col items-center justify-center w-full dark-mode-fix">
             {/* Hero Section */}
-            <div className="relative w-full overflow-hidden min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center">
+            <div className="relative w-full overflow-hidden min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center bg-[#112218]">
               <div className="absolute inset-0 z-0" style={{
                 backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXWlwQW3v97XyBfrD2uOm4ZsNUTXtGpOam_pqVgNUj0vcwfaKu_Ow_gPz5qYISO5ozEKUHLs0LmAeXNES_7JvPz8CFNw8ffMNw3hYS3rb7AuJQKn4EIHEyoOqApa2pmwMaRPHj-XJlNaHVVSuirqqt9IlTaBpAGvCXnvc1lVsklhTca4BP8QayVSS59NWKQG3qa5PMRHjFMQCTEYTo6sKFAJ1eM6X5R32RpyFM5EN_VdpTTwrTPq0NVvotWexdL59YdoSig2NlL30")',
                 backgroundSize: 'cover',
@@ -247,50 +271,6 @@ const Home = () => {
                 <span className="material-symbols-outlined text-2xl sm:text-3xl">keyboard_arrow_down</span>
               </div>
             </div>
-
-            {/* Features Section */}
-            <div className="w-full bg-[#152a1e] py-16 sm:py-24 border-y border-[#1e3a2b]">
-              <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-                <div className="text-center mb-8 sm:mb-16">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-white">Why Choose Alamo Steel?</h2>
-                  <div className="h-1 w-16 sm:w-20 bg-primary mx-auto rounded-full"></div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-                  {[
-                    {
-                      icon: 'verified_user',
-                      title: 'Unmatched Security',
-                      desc: 'Heavy-duty 12-gauge steel construction ensures maximum protection for your home and family.'
-                    },
-                    {
-                      icon: 'design_services',
-                      title: 'Custom Design',
-                      desc: 'From modern pivot doors to classic scrolls, we bring your unique vision to life.'
-                    },
-                    {
-                      icon: 'energy_savings_leaf',
-                      title: 'Energy Efficient',
-                      desc: 'Thermal breaks and dual-pane tempered glass keep your home insulated and comfortable.'
-                    },
-                    {
-                      icon: 'build',
-                      title: 'Easy Installation',
-                      desc: 'Pre-hung units with integrated thresholds make installation straightforward and precise.'
-                    }
-                  ].map((feature, index) => (
-                    <div key={index} className="group p-4 sm:p-6 lg:p-8 rounded-xl sm:rounded-2xl bg-[#112218] border border-[#234832] hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                      <div className="size-10 sm:size-12 lg:size-14 rounded-lg sm:rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary group-hover:text-[#112218] transition-colors">
-                        <span className="material-symbols-outlined text-2xl sm:text-3xl">{feature.icon}</span>
-                      </div>
-                      <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-white">{feature.title}</h3>
-                      <p className="text-sm sm:text-base text-gray-400 leading-relaxed">{feature.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* REST OF YOUR CODE CONTINUES HERE... */}
 
             {/* Features Section */}
             <div className="w-full bg-[#152a1e] py-16 sm:py-24 border-y border-[#1e3a2b]">
@@ -387,7 +367,6 @@ const Home = () => {
                       <p className="text-gray-300 text-xs sm:text-sm line-clamp-2 mb-3 sm:mb-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 duration-300">
                         {item.desc}
                       </p>
-                      
                     </div>
                   </Link>
                 ))}
@@ -491,72 +470,63 @@ const Home = () => {
             </div>
           </main>
 
-          {/* Footer with React Router Links */}
           {/* Footer */}
-<footer className="bg-black text-white py-8 sm:py-12 border-t border-[#234832]">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
-      {/* Brand */}
-      <div className="col-span-1 md:col-span-1">
-        <div className="flex items-center gap-2 mb-3 sm:mb-4">
-          <div className="flex size-7 sm:size-8 items-center justify-center rounded-full bg-primary/20 text-primary">
-            <span className="material-symbols-outlined text-base sm:text-lg">door_front</span>
-          </div>
-          <Link to="/" className="text-base sm:text-lg font-bold">Alamo Steel Doors</Link>
-        </div>
-        <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
-          Hand-forged steel doors that define luxury and security. Elevate your entrance today.
-        </p>
-        <div className="flex gap-3 sm:gap-4">
-          {/* Social icons would go here */}
-        </div>
-      </div>
+          <footer className="bg-black text-white py-8 sm:py-12 border-t border-[#234832]">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
+                {/* Brand */}
+                <div className="col-span-1 md:col-span-1">
+                  <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                    <div className="flex size-7 sm:size-8 items-center justify-center rounded-full bg-primary/20 text-primary">
+                      <span className="material-symbols-outlined text-base sm:text-lg">door_front</span>
+                    </div>
+                    <Link to="/" className="text-base sm:text-lg font-bold">Alamo Steel Doors</Link>
+                  </div>
+                  <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
+                    Hand-forged steel doors that define luxury and security. Elevate your entrance today.
+                  </p>
+                </div>
 
-      {/* Portfolio Links */}
-      <div>
-        {/* Note: This section is intentionally left empty to match Portfolio component */}
-      </div>
+                {/* Company Links */}
+                <div>
+                  <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Company</h4>
+                  <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
+                    <li><Link to="/About" className="hover:text-primary transition-colors">About Us</Link></li>
+                    <li><Link to="/Contact" className="hover:text-primary transition-colors">Contact</Link></li>
+                    <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
+                  </ul>
+                </div>
 
-      {/* Company Links */}
-      <div>
-        <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Company</h4>
-        <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
-          <li><Link to="/About" className="hover:text-primary transition-colors">About Us</Link></li>
-          <li><Link to="/Contact" className="hover:text-primary transition-colors">Contact</Link></li>
-          <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
-        </ul>
-      </div>
-
-      {/* Contact Info */}
-      <div>
-        <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Contact</h4>
-        <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
-          <li className="flex items-start gap-2">
-            <span className="material-symbols-outlined text-primary text-sm sm:text-base mt-0.5">location_on</span>
-            <span>123 Forge Avenue,<br/>Austin, TX 78701</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary text-sm sm:text-base">call</span>
-            (555) 123-4567
-          </li>
-          <li className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary text-sm sm:text-base">mail</span>
-            hello@alamosteeldoors.com
-          </li>
-        </ul>
-      </div>
-    </div>
-    
-    {/* Footer Bottom */}
-    <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
-      <p className="text-gray-500 text-xs sm:text-sm">© 2025 Alamo Steel Doors. All rights reserved.</p>
-      <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
-        <a className="hover:text-white" href="#">Privacy Policy</a>
-        <a className="hover:text-white" href="#">Terms of Service</a>
-      </div>
-    </div>
-  </div>
-</footer>
+                {/* Contact Info */}
+                <div>
+                  <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Contact</h4>
+                  <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
+                    <li className="flex items-start gap-2">
+                      <span className="material-symbols-outlined text-primary text-sm sm:text-base mt-0.5">location_on</span>
+                      <span>123 Forge Avenue,<br/>Austin, TX 78701</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-sm sm:text-base">call</span>
+                      (555) 123-4567
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-sm sm:text-base">mail</span>
+                      hello@alamosteeldoors.com
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              {/* Footer Bottom */}
+              <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
+                <p className="text-gray-500 text-xs sm:text-sm">© 2025 Alamo Steel Doors. All rights reserved.</p>
+                <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
+                  <a className="hover:text-white" href="#">Privacy Policy</a>
+                  <a className="hover:text-white" href="#">Terms of Service</a>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
 
