@@ -625,11 +625,13 @@ const About = () => {
                 <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
                   <li className="flex items-start gap-2">
                     <span className="material-symbols-outlined text-primary text-sm sm:text-base mt-0.5">location_on</span>
-                    <span>123 Forge Avenue,<br/>Austin, TX 78701</span>
+                    <span>1624 S San Marcos
+
+<br/>San Antonio, TX  78207</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary text-sm sm:text-base">call</span>
-                    (210)596-8796
+                    (210) 596-8796
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary text-sm sm:text-base">mail</span>

@@ -253,7 +253,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Phone</p>
-                    <h3 className="text-base sm:text-lg font-bold">(555) 123-4567</h3>
+                    <h3 className="text-base sm:text-lg font-bold">(210) 596-8796</h3>
                   </div>
                 </div>
                 <div className="group flex items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-lg border border-[#234832] bg-[#193324] hover:border-[#2bee79]/50 transition-colors">
@@ -271,7 +271,9 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Showroom</p>
-                    <h3 className="text-base sm:text-lg font-bold">123 Forge Avenue, Austin, TX</h3>
+                    <h3 className="text-base sm:text-lg font-bold">1624 S San Marcos
+San Antonio, TX  78207
+United States</h3>
                   </div>
                 </div>
               </div>
@@ -348,7 +350,7 @@ const Contact = () => {
                         <span className="text-sm font-medium text-gray-300 ml-1">Phone Number</span>
                         <input 
                           className="w-full rounded-full bg-[#112218] border border-[#326747] text-white px-4 sm:px-5 py-2.5 sm:py-3 focus:ring-2 focus:ring-[#2bee79] focus:border-transparent outline-none transition-all placeholder:text-[#5c856e]" 
-                          placeholder="(555) 000-0000" 
+                          placeholder="(210) 596-8796" 
                           type="tel"
                         />
                       </label>
@@ -445,7 +447,9 @@ const Contact = () => {
                                  <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
                                    <li className="flex items-start gap-2">
                                      <span className="material-symbols-outlined text-primary text-sm sm:text-base mt-0.5">location_on</span>
-                                     <span>123 Forge Avenue,<br/>Austin, TX 78701</span>
+                                     <span>1624 S San Marcos
+
+<br/>San Antonio, TX  78207</span>
                                    </li>
                                    <li className="flex items-center gap-2">
                                      <span className="material-symbols-outlined text-primary text-sm sm:text-base">call</span>
