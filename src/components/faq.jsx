@@ -423,7 +423,7 @@ const FAQ = () => {
                                    </li>
                                    <li className="flex items-center gap-2">
                                      <span className="material-symbols-outlined text-primary text-sm sm:text-base">call</span>
-                                     (555) 123-4567
+                                     (210) 596-8796
                                    </li>
                                    <li className="flex items-center gap-2">
                                      <span className="material-symbols-outlined text-primary text-sm sm:text-base">mail</span>
