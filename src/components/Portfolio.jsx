@@ -1,5 +1,5 @@
 // components/Portfolio.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ModalContactForm from './Modalcontactform';
 
@@ -8,10 +8,7 @@ const Portfolio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('category1');
-  const [loadedImages, setLoadedImages] = useState({});
-  const [allImagesPreloaded, setAllImagesPreloaded] = useState(false);
-  const imageRefs = useRef({});
-
+  
   // Categories data structure
   const categories = [
     {
@@ -216,53 +213,6 @@ const Portfolio = () => {
     ]
   };
 
-  // Collect all image URLs for preloading
-  const allImageUrls = [
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuB-oi8kmCklIfpv8rt2eqBcu40zLqI3KNLPW2dFbFt0ucCLOHujKTUFe_PjNYWmnoKUKs6wPb19ITUokvw_Bg4QQJlw_thaK7wlmf9XoeWndEBsmKTyLftlDMpkVXwAQOadNutoK608oVKzwnbFNgE-l_nIxQDFC6KmJeQ5r7vfeAaS1fue7Zu9E2n1mIDklatc1xVSt15swMnPDDeFsf67A_4ChbXYTz_MJTxHx-L73rQkR6AH_Hx2rJ9aj6g_G8CpbLG363wihHs'
-  ];
-
-  // Add all product images
-  Object.values(categoryContent).forEach(category => {
-    category.forEach(item => {
-      allImageUrls.push(item.image);
-    });
-  });
-
-  // Preload images function
-  const preloadImages = () => {
-    const promises = allImageUrls.map(url => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.src = url;
-        img.onload = () => {
-          setLoadedImages(prev => ({ ...prev, [url]: true }));
-          resolve();
-        };
-        img.onerror = reject;
-      });
-    });
-
-    Promise.all(promises)
-      .then(() => {
-        setAllImagesPreloaded(true);
-      })
-      .catch(err => {
-        console.error('Error preloading images:', err);
-        // Even if some fail, still set to true so page can continue
-        setAllImagesPreloaded(true);
-      });
-  };
-
-  // Preload images on component mount
-  useEffect(() => {
-    preloadImages();
-    
-    if (categories.length > 0 && !selectedCategory) {
-      setSelectedCategory(categories[0].id);
-    }
-  }, []);
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -272,22 +222,19 @@ const Portfolio = () => {
     navigate(path);
   };
 
+  // Select first category by default
+  useEffect(() => {
+    if (categories.length > 0 && !selectedCategory) {
+      setSelectedCategory(categories[0].id);
+    }
+  }, []);
+
   const currentCategory = categories.find(cat => cat.id === selectedCategory);
   const currentContent = categoryContent[selectedCategory] || [];
 
-  // Loading indicator component
-  const LoadingSpinner = () => (
-    <div className="flex items-center justify-center h-full min-h-[300px]">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 border-4 border-[#2bee79] border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-[#2bee79] font-medium">Loading images...</p>
-      </div>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-[#112218] font-display text-gray-100">
-      {/* Font Imports */}
+      {/* Font imports */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link 
@@ -295,25 +242,13 @@ const Portfolio = () => {
         rel="stylesheet" 
       />
       <link 
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" 
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" 
         rel="stylesheet"
       />
       
-      {/* Preload critical images in HTML head */}
+      {/* Custom Styles */}
       <style dangerouslySetInnerHTML={{
         __html: `
-          ${allImageUrls.map(url => `
-            body::after {
-              content: '';
-              position: absolute;
-              width: 0;
-              height: 0;
-              overflow: hidden;
-              z-index: -1;
-              background-image: url("${url}");
-            }
-          `).join('')}
-          
           .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
           }
@@ -340,62 +275,13 @@ const Portfolio = () => {
             }
           }
           
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-          
           .animate-slideIn {
             animation: slideIn 0.3s ease-out;
-          }
-          
-          .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out;
-          }
-          
-          .image-container {
-            position: relative;
-            overflow: hidden;
-          }
-          
-          .image-container img {
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-          }
-          
-          .image-container img.loaded {
-            opacity: 1;
           }
         `
       }} />
       
-      {/* Preload images as hidden elements */}
-      <div style={{ display: 'none' }}>
-        {allImageUrls.map((url, index) => (
-          <img 
-            key={`preload-${index}`}
-            src={url}
-            alt=""
-            loading="eager"
-            onLoad={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-        ))}
-      </div>
-      
       <div className="relative flex min-h-screen w-full flex-col bg-[#112218]">
-        {/* Show loading spinner while images preload */}
-        {!allImagesPreloaded && (
-          <div className="fixed inset-0 bg-[#112218] z-[100] flex items-center justify-center">
-            <LoadingSpinner />
-          </div>
-        )}
-        
         {/* Header */}
         <header className="sticky top-0 z-50 bg-[#112218]/90 backdrop-blur-sm border-b border-[#234832]">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3 sm:py-4">
@@ -534,9 +420,9 @@ const Portfolio = () => {
           <section className="relative">
             <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex flex-col items-center justify-center min-h-[300px] sm:min-h-[350px] relative overflow-hidden">
               <div 
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat animate-fadeIn"
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: `linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("${allImageUrls[0]}")`
+                  backgroundImage: 'linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao")'
                 }}
               ></div>
               
@@ -649,82 +535,74 @@ const Portfolio = () => {
                     
                     {/* Content Grid */}
                     <div className="p-4 sm:p-6 custom-scrollbar" style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'auto' }}>
-                      {!allImagesPreloaded ? (
-                        <LoadingSpinner />
-                      ) : (
-                        <div className="space-y-6 sm:space-y-8">
-                          {currentContent.map((item, index) => (
-                            <div key={index} className="bg-[#112218] rounded-xl sm:rounded-2xl overflow-hidden animate-fadeIn">
-                              <div className="flex flex-col lg:flex-row">
-                                {/* Image */}
-                                <div className="w-full lg:w-2/5">
-                                  <div 
-                                    className="h-48 sm:h-64 lg:h-full w-full bg-cover bg-center bg-no-repeat"
-                                    style={{ 
-                                      backgroundImage: `url(${item.image})`,
-                                      backgroundSize: 'cover',
-                                      backgroundPosition: 'center'
-                                    }}
-                                  ></div>
+                      <div className="space-y-6 sm:space-y-8">
+                        {currentContent.map((item, index) => (
+                          <div key={index} className="bg-[#112218] rounded-xl sm:rounded-2xl overflow-hidden">
+                            <div className="flex flex-col lg:flex-row">
+                              {/* Image */}
+                              <div className="w-full lg:w-2/5">
+                                <div 
+                                  className="h-48 sm:h-64 lg:h-full w-full bg-cover bg-center"
+                                  style={{ backgroundImage: `url(${item.image})` }}
+                                ></div>
+                              </div>
+                              
+                              {/* Content */}
+                              <div className="w-full lg:w-3/5 p-4 sm:p-6">
+                                <h3 className="text-white text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
+                                  <span className="material-symbols-outlined text-[#2bee79]">door_front</span>
+                                  {item.title}
+                                </h3>
+                                
+                                {/* Key Features */}
+                                <div className="mb-4 sm:mb-6">
+                                  <h4 className="text-[#2bee79] font-bold mb-2 flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-lg">featured_seasonal_and_gifts</span>
+                                    Key Design Features
+                                  </h4>
+                                  <ul className="space-y-2">
+                                    {item.features.map((feature, idx) => (
+                                      <li key={idx} className="flex items-start gap-2">
+                                        <span className="text-[#2bee79] mt-1">•</span>
+                                        <span className="text-gray-300 text-sm sm:text-base">{feature}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
                                 </div>
                                 
-                                {/* Content */}
-                                <div className="w-full lg:w-3/5 p-4 sm:p-6">
-                                  <h3 className="text-white text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-[#2bee79]">door_front</span>
-                                    {item.title}
-                                  </h3>
-                                  
-                                  {/* Key Features */}
-                                  <div className="mb-4 sm:mb-6">
+                                {/* Common Uses */}
+                                {item.uses && item.uses.length > 0 && (
+                                  <div>
                                     <h4 className="text-[#2bee79] font-bold mb-2 flex items-center gap-2">
-                                      <span className="material-symbols-outlined text-lg">featured_seasonal_and_gifts</span>
-                                      Key Design Features
+                                      <span className="material-symbols-outlined text-lg">location_on</span>
+                                      Common Uses
                                     </h4>
                                     <ul className="space-y-2">
-                                      {item.features.map((feature, idx) => (
+                                      {item.uses.map((use, idx) => (
                                         <li key={idx} className="flex items-start gap-2">
                                           <span className="text-[#2bee79] mt-1">•</span>
-                                          <span className="text-gray-300 text-sm sm:text-base">{feature}</span>
+                                          <span className="text-gray-300 text-sm sm:text-base">{use}</span>
                                         </li>
                                       ))}
                                     </ul>
                                   </div>
-                                  
-                                  {/* Common Uses */}
-                                  {item.uses && item.uses.length > 0 && (
-                                    <div>
-                                      <h4 className="text-[#2bee79] font-bold mb-2 flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-lg">location_on</span>
-                                        Common Uses
-                                      </h4>
-                                      <ul className="space-y-2">
-                                        {item.uses.map((use, idx) => (
-                                          <li key={idx} className="flex items-start gap-2">
-                                            <span className="text-[#2bee79] mt-1">•</span>
-                                            <span className="text-gray-300 text-sm sm:text-base">{use}</span>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  )}
-                                  
-                                  {/* View Details Button */}
-                                  <div className="mt-6 pt-4 border-t border-[#234832]">
-                                    <button 
-                                      onClick={openModal}
-                                      className="flex items-center justify-center gap-2 w-full sm:w-auto bg-[#2bee79] hover:bg-[#25cc68] text-[#112218] font-bold py-2 px-4 sm:px-6 rounded-full transition-colors"
-                                    >
-                                      <span className="material-symbols-outlined">request_quote</span>
-                                      Request Custom Quote
-                                    </button>
-                                  </div>
+                                )}
+                                
+                                {/* View Details Button */}
+                                <div className="mt-6 pt-4 border-t border-[#234832]">
+                                  <button 
+                                    onClick={openModal}
+                                    className="flex items-center justify-center gap-2 w-full sm:w-auto bg-[#2bee79] hover:bg-[#25cc68] text-[#112218] font-bold py-2 px-4 sm:px-6 rounded-full transition-colors"
+                                  >
+                                    <span className="material-symbols-outlined">request_quote</span>
+                                    Request Custom Quote
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                          ))}
-                        </div>
-                      )}
+                          </div>
+                        ))}
+                      </div>
                       
                       {/* Empty State */}
                       {currentContent.length === 0 && (
@@ -747,11 +625,9 @@ const Portfolio = () => {
               <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 items-center">
                 <div className="w-full lg:w-1/2 relative">
                   <div 
-                    className="aspect-video w-full rounded-xl sm:rounded-2xl bg-center bg-cover bg-no-repeat shadow-2xl overflow-hidden animate-fadeIn"
+                    className="aspect-video w-full rounded-xl sm:rounded-2xl bg-center bg-cover shadow-2xl overflow-hidden"
                     style={{
-                      backgroundImage: `url("${allImageUrls[1]}")`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
+                      backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-oi8kmCklIfpv8rt2eqBcu40zLqI3KNLPW2dFbFt0ucCLOHujKTUFe_PjNYWmnoKUKs6wPb19ITUokvw_Bg4QQJlw_thaK7wlmf9XoeWndEBsmKTyLftlDMpkVXwAQOadNutoK608oVKzwnbFNgE-l_nIxQDFC6KmJeQ5r7vfeAaS1fue7Zu9E2n1mIDklatc1xVSt15swMnPDDeFsf67A_4ChbXYTz_MJTxHx-L73rQkR6AH_Hx2rJ9aj6g_G8CpbLG363wihHs")'
                     }}
                   ></div>
                   
@@ -778,7 +654,13 @@ const Portfolio = () => {
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                   
+                    <button 
+                      onClick={openModal}
+                      className="bg-[#1c3226] text-white hover:bg-[#234832] transition-colors rounded-full px-5 sm:px-6 py-2.5 sm:py-3 font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-lg">menu_book</span>
+                      Download Catalog
+                    </button>
                   </div>
                 </div>
               </div>
