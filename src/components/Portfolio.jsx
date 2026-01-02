@@ -8,6 +8,7 @@ const Portfolio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('category1');
+  const [visibleImages, setVisibleImages] = useState({});
   
   // Categories data structure
   const categories = [
@@ -213,6 +214,18 @@ const Portfolio = () => {
     ]
   };
 
+  // Preload ONLY the first image of each category + hero images
+  const criticalImages = [
+    'https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao',
+    'https://lh3.googleusercontent.com/aida-public/AB6AXuB-oi8kmCklIfpv8rt2eqBcu40zLqI3KNLPW2dFbFt0ucCLOHujKTUFe_PjNYWmnoKUKs6wPb19ITUokvw_Bg4QQJlw_thaK7wlmf9XoeWndEBsmKTyLftlDMpkVXwAQOadNutoK608oVKzwnbFNgE-l_nIxQDFC6KmJeQ5r7vfeAaS1fue7Zu9E2n1mIDklatc1xVSt15swMnPDDeFsf67A_4ChbXYTz_MJTxHx-L73rQkR6AH_Hx2rJ9aj6g_G8CpbLG363wihHs',
+    // First image from each category
+    'https://i.imgur.com/aQjsY82.jpeg', // category1
+    'https://i.imgur.com/S49OC3Z.jpeg', // category2 first
+    'https://i.imgur.com/Vs3fxuW.jpeg', // category3 first
+    'https://i.imgur.com/xA177EI.jpeg', // category4
+    'https://i.imgur.com/aEawKL6.jpeg', // category5 first
+  ];
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -221,6 +234,34 @@ const Portfolio = () => {
     setIsMobileMenuOpen(false);
     navigate(path);
   };
+
+  // Preload only critical images
+  useEffect(() => {
+    // Show page immediately
+    document.body.style.visibility = 'visible';
+    
+    // Preload critical images in background
+    criticalImages.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
+
+    // Load current category images when category changes
+    const loadCurrentCategoryImages = () => {
+      const currentImages = categoryContent[selectedCategory] || [];
+      currentImages.forEach(item => {
+        if (!visibleImages[item.image]) {
+          const img = new Image();
+          img.src = item.image;
+          img.onload = () => {
+            setVisibleImages(prev => ({ ...prev, [item.image]: true }));
+          };
+        }
+      });
+    };
+
+    loadCurrentCategoryImages();
+  }, [selectedCategory]);
 
   // Select first category by default
   useEffect(() => {
@@ -234,7 +275,7 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-[#112218] font-display text-gray-100">
-      {/* Font imports */}
+      {/* Font Imports */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link 
@@ -242,13 +283,17 @@ const Portfolio = () => {
         rel="stylesheet" 
       />
       <link 
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" 
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" 
         rel="stylesheet"
       />
       
       {/* Custom Styles */}
       <style dangerouslySetInnerHTML={{
         __html: `
+          body {
+            visibility: visible !important;
+          }
+          
           .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
           }
@@ -275,14 +320,57 @@ const Portfolio = () => {
             }
           }
           
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          
           .animate-slideIn {
             animation: slideIn 0.3s ease-out;
+          }
+          
+          .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+          }
+          
+          .image-loading {
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .image-loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #1c3226 0%, #234832 50%, #1c3226 100%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+          }
+          
+          @keyframes loading {
+            0% {
+              background-position: 200% 0;
+            }
+            100% {
+              background-position: -200% 0;
+            }
+          }
+          
+          .image-loaded {
+            animation: fadeIn 0.5s ease-out;
           }
         `
       }} />
       
       <div className="relative flex min-h-screen w-full flex-col bg-[#112218]">
-        {/* Header */}
+        {/* Header - Show immediately */}
         <header className="sticky top-0 z-50 bg-[#112218]/90 backdrop-blur-sm border-b border-[#234832]">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3 sm:py-4">
             <div className="flex items-center gap-2 sm:gap-4 text-white">
@@ -420,9 +508,9 @@ const Portfolio = () => {
           <section className="relative">
             <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex flex-col items-center justify-center min-h-[300px] sm:min-h-[350px] relative overflow-hidden">
               <div 
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat animate-fadeIn"
                 style={{
-                  backgroundImage: 'linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao")'
+                  backgroundImage: `linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("${criticalImages[0]}")`
                 }}
               ></div>
               
@@ -542,9 +630,21 @@ const Portfolio = () => {
                               {/* Image */}
                               <div className="w-full lg:w-2/5">
                                 <div 
-                                  className="h-48 sm:h-64 lg:h-full w-full bg-cover bg-center"
-                                  style={{ backgroundImage: `url(${item.image})` }}
-                                ></div>
+                                  className={`h-48 sm:h-64 lg:h-full w-full bg-cover bg-center bg-no-repeat ${
+                                    visibleImages[item.image] ? 'image-loaded' : 'image-loading'
+                                  }`}
+                                  style={{ 
+                                    backgroundImage: visibleImages[item.image] ? `url(${item.image})` : 'none',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center'
+                                  }}
+                                >
+                                  {!visibleImages[item.image] && (
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                      <div className="w-8 h-8 border-2 border-[#2bee79] border-t-transparent rounded-full animate-spin"></div>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                               
                               {/* Content */}
@@ -625,9 +725,11 @@ const Portfolio = () => {
               <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 items-center">
                 <div className="w-full lg:w-1/2 relative">
                   <div 
-                    className="aspect-video w-full rounded-xl sm:rounded-2xl bg-center bg-cover shadow-2xl overflow-hidden"
+                    className="aspect-video w-full rounded-xl sm:rounded-2xl bg-center bg-cover bg-no-repeat shadow-2xl overflow-hidden image-loaded"
                     style={{
-                      backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-oi8kmCklIfpv8rt2eqBcu40zLqI3KNLPW2dFbFt0ucCLOHujKTUFe_PjNYWmnoKUKs6wPb19ITUokvw_Bg4QQJlw_thaK7wlmf9XoeWndEBsmKTyLftlDMpkVXwAQOadNutoK608oVKzwnbFNgE-l_nIxQDFC6KmJeQ5r7vfeAaS1fue7Zu9E2n1mIDklatc1xVSt15swMnPDDeFsf67A_4ChbXYTz_MJTxHx-L73rQkR6AH_Hx2rJ9aj6g_G8CpbLG363wihHs")'
+                      backgroundImage: `url("${criticalImages[1]}")`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
                     }}
                   ></div>
                   
