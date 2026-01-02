@@ -43,12 +43,12 @@ const Portfolio = () => {
     }
   ];
 
-  // Content data for each category - USING OPTIMIZED IMAGE LINKS
+  // Content data for each category
   const categoryContent = {
     category1: [
       {
         title: 'Modern Iron Pivot Door',
-        image: 'https://i.imgur.com/aQjsY82.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/aQjsY82.jpeg',
         features: [
           'Architectural Style: Modern/Contemporary with geometric "ladder" style crossbars',
           'Construction: Heavy 12-to-14 gauge wrought iron/steel with matte black finish',
@@ -66,7 +66,7 @@ const Portfolio = () => {
     category2: [
       {
         title: 'Modern Iron "4-Lite" Entry Door',
-        image: 'https://i.imgur.com/S49OC3Z.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/S49OC3Z.jpeg',
         features: [
           'Design: Four horizontal glass panels with minimalist grid pattern',
           'Material: 12-gauge or 14-gauge steel with matte black finish',
@@ -81,7 +81,7 @@ const Portfolio = () => {
       },
       {
         title: 'Modern Iron Entry Door with "Lite" Design',
-        image: 'https://i.imgur.com/fTvBHcU.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/fTvBHcU.jpeg',
         features: [
           'Pattern: 4-Lite horizontal grid balancing minimalist and structural elements',
           'Material: Hand-forged 12-gauge or 14-gauge steel',
@@ -98,7 +98,7 @@ const Portfolio = () => {
     category3: [
       {
         title: 'Ornate Wrought Iron Entry Door',
-        image: 'https://i.imgur.com/Vs3fxuW.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/Vs3fxuW.jpeg',
         features: [
           'Material: Heavy-duty forged iron or steel with powder-coated finish',
           'Style: Mediterranean, Tuscan, or Spanish Colonial with intricate scrollwork',
@@ -113,7 +113,7 @@ const Portfolio = () => {
       },
       {
         title: 'Pair of High-End Wrought Iron & Steel Doors',
-        image: 'https://i.imgur.com/XWimiHw.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/XWimiHw.jpeg',
         features: [
           'Styles: Mediterranean scrollwork & modern geometric designs',
           'Finish: Durable, rust-resistant sandblast matte black powder coat',
@@ -128,7 +128,7 @@ const Portfolio = () => {
       },
       {
         title: 'Wrought Iron & Glass French Doors',
-        image: 'https://i.imgur.com/TSkFbT4.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/TSkFbT4.jpeg',
         features: [
           'Materials: Wrought iron scrollwork over frosted privacy glass',
           'Finish: Rich reddish-brown wood grain finish mimicking mahogany',
@@ -146,7 +146,7 @@ const Portfolio = () => {
     category4: [
       {
         title: 'Modern Steel-Framed "Crittall-Style" Glass Door',
-        image: 'https://i.imgur.com/xA177EI.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/xA177EI.jpeg',
         features: [
           'Ultra-Slim Sightlines: Steel/aluminum frames as slim as 22mm',
           'Grid Aesthetic: Thin horizontal and vertical bars (muntins)',
@@ -164,7 +164,7 @@ const Portfolio = () => {
     category5: [
       {
         title: 'CNC Laser-Cut Decorative Panels',
-        image: 'https://i.imgur.com/aEawKL6.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/aEawKL6.jpeg',
         features: [
           'Patterns: Geometric, abstract, or nature-inspired designs',
           'Materials: Aluminum or stainless steel with powder coating',
@@ -180,7 +180,7 @@ const Portfolio = () => {
       },
       {
         title: 'Modern Slatted Pergolas & Roof Systems',
-        image: 'https://i.imgur.com/TSTPtRM.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/TSTPtRM.jpeg',
         features: [
           'Materials: Dark metal frames with warm wood slats',
           'Lighting: Built-in LED strips or festoon lights',
@@ -196,7 +196,7 @@ const Portfolio = () => {
       },
       {
         title: 'Architectural Laser-Cut Metal Panels',
-        image: 'https://i.imgur.com/TykkxFm.jpeg?maxwidth=800&shape=thumb&fidelity=high',
+        image: 'https://i.imgur.com/TykkxFm.jpeg',
         features: [
           'Precision: CNC technology for intricate designs',
           'Dynamic Effects: Creates shifting patterns with sunlight',
@@ -213,20 +213,6 @@ const Portfolio = () => {
     ]
   };
 
-  // Background images
-  const backgroundImages = [
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuB-oi8kmCklIfpv8rt2eqBcu40zLqI3KNLPW2dFbFt0ucCLOHujKTUFe_PjNYWmnoKUKs6wPb19ITUokvw_Bg4QQJlw_thaK7wlmf9XoeWndEBsmKTyLftlDMpkVXwAQOadNutoK608oVKzwnbFNgE-l_nIxQDFC6KmJeQ5r7vfeAaS1fue7Zu9E2n1mIDklatc1xVSt15swMnPDDeFsf67A_4ChbXYTz_MJTxHx-L73rQkR6AH_Hx2rJ9aj6g_G8CpbLG363wihHs'
-  ];
-
-  // Collect ALL image URLs for aggressive preloading
-  const allImageUrls = [...backgroundImages];
-  Object.values(categoryContent).forEach(category => {
-    category.forEach(item => {
-      allImageUrls.push(item.image);
-    });
-  });
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -236,23 +222,8 @@ const Portfolio = () => {
     navigate(path);
   };
 
-  // AGGRESSIVE PRELOADING - Start immediately
+  // Select first category by default
   useEffect(() => {
-    // Preload ALL images in background as soon as component mounts
-    allImageUrls.forEach(url => {
-      // Create invisible image elements to force browser to cache them
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = url;
-      document.head.appendChild(link);
-      
-      // Also preload via Image object
-      const img = new Image();
-      img.src = url;
-    });
-    
-    // Set selected category
     if (categories.length > 0 && !selectedCategory) {
       setSelectedCategory(categories[0].id);
     }
@@ -263,7 +234,7 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-[#112218] font-display text-gray-100">
-      {/* Font Imports */}
+      {/* Font imports */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link 
@@ -271,25 +242,13 @@ const Portfolio = () => {
         rel="stylesheet" 
       />
       <link 
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" 
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" 
         rel="stylesheet"
       />
       
-      {/* AGGRESSIVE PRELOADING IN HTML HEAD */}
+      {/* Custom Styles */}
       <style dangerouslySetInnerHTML={{
         __html: `
-          /* Preload critical images using CSS */
-          ${allImageUrls.map((url, index) => `
-            body::after {
-              content: url("${url}");
-              position: absolute;
-              width: 0;
-              height: 0;
-              overflow: hidden;
-              z-index: -1;
-            }
-          `).join('')}
-          
           .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
           }
@@ -319,39 +278,11 @@ const Portfolio = () => {
           .animate-slideIn {
             animation: slideIn 0.3s ease-out;
           }
-          
-          /* Force images to show immediately with no transition */
-          .instant-image {
-            opacity: 1 !important;
-            transition: none !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-          }
-          
-          /* Hide any loading states */
-          .image-loading {
-            display: none;
-          }
         `
       }} />
       
-      {/* HIDDEN PRELOAD IMAGES */}
-      <div style={{ display: 'none' }}>
-        {allImageUrls.map((url, index) => (
-          <img 
-            key={`preload-${index}`}
-            src={url}
-            alt=""
-            loading="eager"
-            decoding="sync"
-            crossOrigin="anonymous"
-          />
-        ))}
-      </div>
-      
       <div className="relative flex min-h-screen w-full flex-col bg-[#112218]">
-        {/* Header - Always visible immediately */}
+        {/* Header */}
         <header className="sticky top-0 z-50 bg-[#112218]/90 backdrop-blur-sm border-b border-[#234832]">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3 sm:py-4">
             <div className="flex items-center gap-2 sm:gap-4 text-white">
@@ -483,15 +414,15 @@ const Portfolio = () => {
           )}
         </header>
 
-        {/* Main Content - Shows immediately */}
+        {/* Main Content - Two Panel Layout */}
         <main className="flex-1 bg-[#112218]">
           {/* Hero Section */}
           <section className="relative">
             <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex flex-col items-center justify-center min-h-[300px] sm:min-h-[350px] relative overflow-hidden">
               <div 
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat instant-image"
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: `linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("${backgroundImages[0]}")`
+                  backgroundImage: 'linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao")'
                 }}
               ></div>
               
@@ -608,13 +539,11 @@ const Portfolio = () => {
                         {currentContent.map((item, index) => (
                           <div key={index} className="bg-[#112218] rounded-xl sm:rounded-2xl overflow-hidden">
                             <div className="flex flex-col lg:flex-row">
-                              {/* Image - Shows immediately */}
+                              {/* Image */}
                               <div className="w-full lg:w-2/5">
                                 <div 
-                                  className="h-48 sm:h-64 lg:h-full w-full instant-image"
-                                  style={{ 
-                                    backgroundImage: `url(${item.image})`
-                                  }}
+                                  className="h-48 sm:h-64 lg:h-full w-full bg-cover bg-center"
+                                  style={{ backgroundImage: `url(${item.image})` }}
                                 ></div>
                               </div>
                               
@@ -696,9 +625,9 @@ const Portfolio = () => {
               <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 items-center">
                 <div className="w-full lg:w-1/2 relative">
                   <div 
-                    className="aspect-video w-full rounded-xl sm:rounded-2xl bg-center bg-cover bg-no-repeat shadow-2xl overflow-hidden instant-image"
+                    className="aspect-video w-full rounded-xl sm:rounded-2xl bg-center bg-cover shadow-2xl overflow-hidden"
                     style={{
-                      backgroundImage: `url("${backgroundImages[1]}")`
+                      backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-oi8kmCklIfpv8rt2eqBcu40zLqI3KNLPW2dFbFt0ucCLOHujKTUFe_PjNYWmnoKUKs6wPb19ITUokvw_Bg4QQJlw_thaK7wlmf9XoeWndEBsmKTyLftlDMpkVXwAQOadNutoK608oVKzwnbFNgE-l_nIxQDFC6KmJeQ5r7vfeAaS1fue7Zu9E2n1mIDklatc1xVSt15swMnPDDeFsf67A_4ChbXYTz_MJTxHx-L73rQkR6AH_Hx2rJ9aj6g_G8CpbLG363wihHs")'
                     }}
                   ></div>
                   
