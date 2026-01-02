@@ -1,5 +1,5 @@
 // components/Portfolio.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ModalContactForm from './Modalcontactform';
 
@@ -7,6 +7,261 @@ const Portfolio = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('category1');
+  const [loadedImages, setLoadedImages] = useState({});
+  const [allImagesPreloaded, setAllImagesPreloaded] = useState(false);
+  const imageRefs = useRef({});
+
+  // Categories data structure
+  const categories = [
+    {
+      id: 'category1',
+      name: 'Modern Pivot Doors',
+      shortName: 'Pivot Doors',
+      description: 'Contemporary single-pivot entry doors with clean geometric designs'
+    },
+    {
+      id: 'category2',
+      name: 'Modern Iron Entry Doors',
+      shortName: 'Iron Entry Doors',
+      description: '4-lite design steel doors with minimalist aesthetics'
+    },
+    {
+      id: 'category3',
+      name: 'Ornate Wrought Iron Doors',
+      shortName: 'Wrought Iron Doors',
+      description: 'Intricate scrollwork and Mediterranean-inspired designs'
+    },
+    {
+      id: 'category4',
+      name: 'Steel-Framed Glass Doors',
+      shortName: 'Glass Doors',
+      description: 'Crittall-style slim-profile steel and glass constructions'
+    },
+    {
+      id: 'category5',
+      name: 'Architectural Elements',
+      shortName: 'Architectural',
+      description: 'Laser-cut panels, pergolas, and decorative features'
+    }
+  ];
+
+  // Content data for each category
+  const categoryContent = {
+    category1: [
+      {
+        title: 'Modern Iron Pivot Door',
+        image: 'https://i.imgur.com/aQjsY82.jpeg',
+        features: [
+          'Architectural Style: Modern/Contemporary with geometric "ladder" style crossbars',
+          'Construction: Heavy 12-to-14 gauge wrought iron/steel with matte black finish',
+          'Glass: Large clear sections of double-paned, tempered Low-E glass',
+          'Hardware: Pivot hinge system for smooth operation',
+          'Insulation: Thermal break with foam insulation'
+        ],
+        uses: [
+          'Main entry door for contemporary luxury homes',
+          'High-security statement entrance',
+          'Focal architectural element'
+        ]
+      }
+    ],
+    category2: [
+      {
+        title: 'Modern Iron "4-Lite" Entry Door',
+        image: 'https://i.imgur.com/S49OC3Z.jpeg',
+        features: [
+          'Design: Four horizontal glass panels with minimalist grid pattern',
+          'Material: 12-gauge or 14-gauge steel with matte black finish',
+          'Glass: Clear Low-E tempered glass for natural light',
+          'Function: Operable glass panels for ventilation',
+          'Insulation: Polyurethane foam injection for thermal efficiency'
+        ],
+        uses: [
+          'Primary entryway for modern residential architecture',
+          'Minimalist, high-security look with abundant natural light'
+        ]
+      },
+      {
+        title: 'Modern Iron Entry Door with "Lite" Design',
+        image: 'https://i.imgur.com/fTvBHcU.jpeg',
+        features: [
+          'Pattern: 4-Lite horizontal grid balancing minimalist and structural elements',
+          'Material: Hand-forged 12-gauge or 14-gauge steel',
+          'Finish: UV and rust-resistant Architectural Black powder coating',
+          'Windows: Swing-open panels for ventilation and cleaning',
+          'Hardware: Designed for long vertical pull handles (48" to 72")'
+        ],
+        uses: [
+          'Contemporary home main entry door',
+          'Blend of modern aesthetics, high security, and functional features'
+        ]
+      }
+    ],
+    category3: [
+      {
+        title: 'Ornate Wrought Iron Entry Door',
+        image: 'https://i.imgur.com/Vs3fxuW.jpeg',
+        features: [
+          'Material: Heavy-duty forged iron or steel with powder-coated finish',
+          'Style: Mediterranean, Tuscan, or Spanish Colonial with intricate scrollwork',
+          'Glass: Dual-pane panel behind decorative ironwork',
+          'Hardware: Antique Brass or Oil-Rubbed Bronze handleset',
+          'Security: Robust iron construction with high physical security'
+        ],
+        uses: [
+          'Grand entrance for villas and estates with Mediterranean architecture',
+          'Secure yet ornate front door with scrollwork'
+        ]
+      },
+      {
+        title: 'Pair of High-End Wrought Iron & Steel Doors',
+        image: 'https://i.imgur.com/XWimiHw.jpeg',
+        features: [
+          'Styles: Mediterranean scrollwork & modern geometric designs',
+          'Finish: Durable, rust-resistant sandblast matte black powder coat',
+          'Hardware: Oil-Rubbed Bronze for Mediterranean, minimalist lever for modern',
+          'Function: Mediterranean style includes operable glass behind ironwork',
+          'Construction: High-grade materials for security and longevity'
+        ],
+        uses: [
+          'Mediterranean Style: Main entry for traditional luxury homes',
+          'Modern Style: Entry door for contemporary residences'
+        ]
+      },
+      {
+        title: 'Wrought Iron & Glass French Doors',
+        image: 'https://i.imgur.com/TSkFbT4.jpeg',
+        features: [
+          'Materials: Wrought iron scrollwork over frosted privacy glass',
+          'Finish: Rich reddish-brown wood grain finish mimicking mahogany',
+          'Style: Mediterranean or Tuscan-style double French doors',
+          'Panels: Often feature independently operable glass panels',
+          'Durability: Superior weather resistance with wood aesthetic'
+        ],
+        uses: [
+          'Grand main entryway statement',
+          'Secure patio or terrace access in luxury homes',
+          'Security with natural light and ornate design'
+        ]
+      }
+    ],
+    category4: [
+      {
+        title: 'Modern Steel-Framed "Crittall-Style" Glass Door',
+        image: 'https://i.imgur.com/xA177EI.jpeg',
+        features: [
+          'Ultra-Slim Sightlines: Steel/aluminum frames as slim as 22mm',
+          'Grid Aesthetic: Thin horizontal and vertical bars (muntins)',
+          'Finish: Durable matte black powder coating',
+          'Hardware: Long tubular pull handles or minimalist lever-lock',
+          'Performance: Double-glazed tempered glass with thermal breaks'
+        ],
+        uses: [
+          'Interior room dividers in modern lofts',
+          'Exterior patio doors or main entries',
+          'Commercial storefronts or office partitions'
+        ]
+      }
+    ],
+    category5: [
+      {
+        title: 'CNC Laser-Cut Decorative Panels',
+        image: 'https://i.imgur.com/aEawKL6.jpeg',
+        features: [
+          'Patterns: Geometric, abstract, or nature-inspired designs',
+          'Materials: Aluminum or stainless steel with powder coating',
+          'Lighting: Create dynamic "light and shadow" patterns',
+          'Function: Privacy screens with 100% ventilation',
+          'Durability: Rust-proof, weather-resistant, low maintenance'
+        ],
+        uses: [
+          'Balcony railings and privacy screens',
+          'Decorative exterior feature walls',
+          'Interior architectural accents with backlighting'
+        ]
+      },
+      {
+        title: 'Modern Slatted Pergolas & Roof Systems',
+        image: 'https://i.imgur.com/TSTPtRM.jpeg',
+        features: [
+          'Materials: Dark metal frames with warm wood slats',
+          'Lighting: Built-in LED strips or festoon lights',
+          'Design: Sleek profiles with cantilevered options',
+          'Function: Adjustable shade with partial UV blocking',
+          'Weather: Motorized tilting or retractable slats available'
+        ],
+        uses: [
+          'Cover for outdoor kitchens and dining areas',
+          'Permanent shade over patios and poolside areas',
+          'Defining "outdoor room" spaces'
+        ]
+      },
+      {
+        title: 'Architectural Laser-Cut Metal Panels',
+        image: 'https://i.imgur.com/TykkxFm.jpeg',
+        features: [
+          'Precision: CNC technology for intricate designs',
+          'Dynamic Effects: Creates shifting patterns with sunlight',
+          'Finishes: Matte black, charcoal, or metallic tones',
+          'Integration: Seamlessly incorporated into larger structures',
+          'Climate Control: Reduces heat gain by blocking UV rays'
+        ],
+        uses: [
+          'Screens for balconies, patios, and pool enclosures',
+          'Integrated ceilings in modern pergolas',
+          'Architectural feature walls with lighting effects'
+        ]
+      }
+    ]
+  };
+
+  // Collect all image URLs for preloading
+  const allImageUrls = [
+    'https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao',
+    'https://lh3.googleusercontent.com/aida-public/AB6AXuB-oi8kmCklIfpv8rt2eqBcu40zLqI3KNLPW2dFbFt0ucCLOHujKTUFe_PjNYWmnoKUKs6wPb19ITUokvw_Bg4QQJlw_thaK7wlmf9XoeWndEBsmKTyLftlDMpkVXwAQOadNutoK608oVKzwnbFNgE-l_nIxQDFC6KmJeQ5r7vfeAaS1fue7Zu9E2n1mIDklatc1xVSt15swMnPDDeFsf67A_4ChbXYTz_MJTxHx-L73rQkR6AH_Hx2rJ9aj6g_G8CpbLG363wihHs'
+  ];
+
+  // Add all product images
+  Object.values(categoryContent).forEach(category => {
+    category.forEach(item => {
+      allImageUrls.push(item.image);
+    });
+  });
+
+  // Preload images function
+  const preloadImages = () => {
+    const promises = allImageUrls.map(url => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+          setLoadedImages(prev => ({ ...prev, [url]: true }));
+          resolve();
+        };
+        img.onerror = reject;
+      });
+    });
+
+    Promise.all(promises)
+      .then(() => {
+        setAllImagesPreloaded(true);
+      })
+      .catch(err => {
+        console.error('Error preloading images:', err);
+        // Even if some fail, still set to true so page can continue
+        setAllImagesPreloaded(true);
+      });
+  };
+
+  // Preload images on component mount
+  useEffect(() => {
+    preloadImages();
+    
+    if (categories.length > 0 && !selectedCategory) {
+      setSelectedCategory(categories[0].id);
+    }
+  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -17,9 +272,22 @@ const Portfolio = () => {
     navigate(path);
   };
 
+  const currentCategory = categories.find(cat => cat.id === selectedCategory);
+  const currentContent = categoryContent[selectedCategory] || [];
+
+  // Loading indicator component
+  const LoadingSpinner = () => (
+    <div className="flex items-center justify-center h-full min-h-[300px]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-4 border-[#2bee79] border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-[#2bee79] font-medium">Loading images...</p>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-[#112218] font-display text-gray-100">
-      {/* Font imports */}
+      {/* Font Imports */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link 
@@ -27,68 +295,107 @@ const Portfolio = () => {
         rel="stylesheet" 
       />
       <link 
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" 
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" 
         rel="stylesheet"
       />
       
-      {/* Custom Styles */}
+      {/* Preload critical images in HTML head */}
       <style dangerouslySetInnerHTML={{
         __html: `
+          ${allImageUrls.map(url => `
+            body::after {
+              content: '';
+              position: absolute;
+              width: 0;
+              height: 0;
+              overflow: hidden;
+              z-index: -1;
+              background-image: url("${url}");
+            }
+          `).join('')}
+          
           .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
           }
           
-          /* Custom hover effects */
-          .hover-zoom {
-            transition: transform 0.3s ease-in-out;
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
           }
-          .group:hover .hover-zoom {
-            transform: scale(1.05);
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c3226;
           }
-          
-          /* Custom scrollbar */
-          ::-webkit-scrollbar {
-            width: 8px;
-          }
-          ::-webkit-scrollbar-track {
-            background: #102217;
-          }
-          ::-webkit-scrollbar-thumb {
+          .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #2bee79;
-            border-radius: 4px;
-          }
-          ::-webkit-scrollbar-thumb:hover {
-            background: #23c563;
+            border-radius: 3px;
           }
           
-          /* Hide scrollbar for filter buttons */
-          .no-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-          .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          
-          /* Animations */
-          @keyframes fade-in-up {
+          @keyframes slideIn {
             from {
               opacity: 0;
-              transform: translateY(20px);
+              transform: translateX(10px);
             }
             to {
               opacity: 1;
-              transform: translateY(0);
+              transform: translateX(0);
             }
           }
           
-          .animate-fade-in-up {
-            animation: fade-in-up 0.6s ease-out;
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          
+          .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+          }
+          
+          .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+          }
+          
+          .image-container {
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .image-container img {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+          }
+          
+          .image-container img.loaded {
+            opacity: 1;
           }
         `
       }} />
       
+      {/* Preload images as hidden elements */}
+      <div style={{ display: 'none' }}>
+        {allImageUrls.map((url, index) => (
+          <img 
+            key={`preload-${index}`}
+            src={url}
+            alt=""
+            loading="eager"
+            onLoad={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+        ))}
+      </div>
+      
       <div className="relative flex min-h-screen w-full flex-col bg-[#112218]">
+        {/* Show loading spinner while images preload */}
+        {!allImagesPreloaded && (
+          <div className="fixed inset-0 bg-[#112218] z-[100] flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
+        )}
+        
         {/* Header */}
         <header className="sticky top-0 z-50 bg-[#112218]/90 backdrop-blur-sm border-b border-[#234832]">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3 sm:py-4">
@@ -221,135 +528,215 @@ const Portfolio = () => {
           )}
         </header>
 
-        {/* Main Content */}
+        {/* Main Content - Two Panel Layout */}
         <main className="flex-1 bg-[#112218]">
           {/* Hero Section */}
           <section className="relative">
-            <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20 flex flex-col items-center justify-center min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] relative overflow-hidden">
-              {/* Background Image with Overlay */}
+            <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex flex-col items-center justify-center min-h-[300px] sm:min-h-[350px] relative overflow-hidden">
               <div 
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat animate-fadeIn"
                 style={{
-                  backgroundImage: 'linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao")'
+                  backgroundImage: `linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("${allImageUrls[0]}")`
                 }}
               ></div>
               
-              <div className="relative z-10 flex flex-col gap-4 sm:gap-6 text-center max-w-4xl mx-auto animate-fade-in-up">
+              <div className="relative z-10 flex flex-col gap-4 text-center max-w-4xl mx-auto">
                 <div className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 w-fit mx-auto">
                   <span className="w-2 h-2 rounded-full bg-[#2bee79] animate-pulse"></span>
-                  <span className="text-xs font-medium text-white tracking-wide uppercase">Portfolio Gallery</span>
+                  <span className="text-xs font-medium text-white tracking-wide uppercase">Product Catalog</span>
                 </div>
                 
-                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight tracking-[-0.033em] px-2">
-                  Masterpieces in Steel
+                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] px-2">
+                  Our Collection
                 </h1>
                 
-                <p className="text-gray-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto px-4">
-                  Explore our curated portfolio of custom hand-forged steel doors. From grand entrances to intimate wine cellars, every piece tells a story of craftsmanship.
-                </p>
-                
-                <div className="pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-                  <button 
-                    onClick={openModal}
-                    className="flex h-11 sm:h-12 items-center justify-center rounded-full bg-[#2bee79] px-6 sm:px-8 text-[#112218] text-sm sm:text-base font-bold transition hover:bg-[#25cc68]"
-                  >
-                    Start Your Project
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
-          
-          {/* Portfolio Section Title */}
-          <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 bg-[#112218]">
-            <div className="mx-auto max-w-7xl">
-              <div className="text-center mb-8 sm:mb-12">
-                <h2 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-3 sm:mb-4">
-                  Featured Projects
-                </h2>
-                <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
-                  Discover our handcrafted steel doors that combine timeless elegance with modern durability
+                <p className="text-gray-300 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto px-4">
+                  Explore our range of handcrafted steel doors and architectural elements. Select a category to view detailed specifications and applications.
                 </p>
               </div>
             </div>
           </section>
           
-          {/* Gallery Grid */}
-          <section className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 bg-[#112218]">
+          {/* Two Panel Layout */}
+          <section className="py-4 sm:py-8 px-4 sm:px-6 lg:px-8 bg-[#112218]">
             <div className="mx-auto max-w-7xl">
-              {/* Masonry-like Layout using Columns */}
-              <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6 space-y-4 sm:space-y-6">
-                {/* Gallery Items */}
-                {[
-                  {
-                    category: "Classical",
-                    title: "The Kensington Estate",
-                    location: "Austin, TX",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA8r1yusdY4YwDlroyolGlbWpNMUzVZnKi3yvR0y4lEpuyk0Cw0IFVPf6qHezWm0TOb27tPz5O8DBiZuu5DU6opccymevUriC1qAtg7zkfvYVykSyDBNQJLenFhPGymJLe56YXwFR6PrLbeLlhLfBUZ34POGTt9D8eJTAdYv-g4jUK28I3C1u8aSyNspNxHW3b9XovXT_jX48fFOITEZYnd9mCZCxe-et-2LtxWdpRF0mmkgIXZt5Sz6NPiGPzaqjbKaPQ6z9-Gxl0",
-                    aspect: "aspect-[3/4]"
-                  },
-                  {
-                    category: "Modern",
-                    title: "Minimalist Pivot",
-                    location: "Los Angeles, CA",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD7JC1YL0LtLC17EbVgFyQNiD-PIkz91GFWJ34yFgCTaXyEnrP4fYTWTJM84mLCI5k6Smt-pnWM8GHLUQxwmu-ew8-LozpXmzUsCx_7FvN0rxPSYn1QBa8BBTSdNfQw1cRsTztkvpXuJ7SIyJcQS38NR3i32NqOnBXJB_V581Y_2cqZV6SwkT5yxHMRuMb5umAMNBBnpm7ZUh_bSezD9kWdAyx7O3Niq38rvqISQZ3ODaFMrjXKEcDAVjquTN0ebLq6HB4n0-h_oaA",
-                    aspect: "aspect-[4/3]"
-                  },
-                  {
-                    category: "Interior",
-                    title: "Vintage Wine Cellar",
-                    location: "Napa Valley, CA",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCRHoSiWrygeoagbOxObGhlcklN1UmKkeETX6qOddR6NNWXvMVe8apSNVtIbAzdF_mUEMAwadP_CMjqgjAFtAzNNT-2sO0LaA32y4XibTbrZw5DyfOj42ExAO4FtYbIU_AH3PQEl7PfT2UQ5zG3iH5sbRXSs8S-6UGKlhNBhVt6uc6Ev8WpsRkf__zRhOwIywlMlE8KxRl2DVp2fL8WFFMWPT9om2wpaZn_nAgiTIN4XdNIn7iNeuF6r_S4ZKOyup2Rvfy3nP-kk2I",
-                    aspect: "aspect-[3/5]"
-                  },
-                  {
-                    category: "Gates",
-                    title: "Modern Farmhouse Entry",
-                    location: "Dallas, TX",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAVZKWt3C_5a_0mTkSSDyi9iwLw4flMpQOzeYR6htn80wQ_UZXnAro2TTUQlsBLs6cZ3z0FurJYcdOPHTJG2edtzePUgpFVxt4SG-DRViPgN9nt8ubkRY8SkrhNW3ezohoBtJA1k6ATmjs3MRePE_lssu-cF8wmKr_0ZX2dhYH2Ds4LvvgyW2P8ExhLfv_VezPFCWESnnD_ClaKJJtSdeK9Ys0LKUtxwJ0Zdf7iYfiDQweuXRdXCJeAgXlrC7Tsp0a9O-fbP-NQtvk",
-                    aspect: "aspect-square"
-                  },
-                  {
-                    category: "Traditional",
-                    title: "Grand Archway",
-                    location: "Chicago, IL",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB-3Fuqkuuc54YcCVl9AIvb6oAhKGSp8G_6WecQ_-qp_pzI6zH7OJSnCnZJWI_KK3bvWeUqO8DPdf3vGc09Ehy9ZuykOnIfIeP4ck5oP6j4r8S23Kf5gbviwAbSuNyzpGp7_n0VuaThF4FdLMQZC3oPved33NIhqzBYmKDA0feODi7yQlNxFEhrh36gCvAo86-4KmDES20qMj8G1OiXNTLm-wtyZoPkNPj46xTllAwullsjXK5xpBrmbSrmr0BH_v8pgWFq4dsNNKY",
-                    aspect: "aspect-[3/4]"
-                  },
-                  {
-                    category: "Ornate",
-                    title: "French Quarter Style",
-                    location: "New Orleans, LA",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBW3x5MKy8laWt7wTKjaHRGSds_Jk8GUO6Bd8vJ8EWQN3teDxW1H3kqSAnANhyfTpD-dZMMVBbGU2egnzulC9LCq9-UpwK1yCSn85rNOt7VvDtiB__REkRZCprixzeoh82V_muSia45XkQOIgErfhccChyyYZvQwNksSIu81kLlTaKQcImKJp7GvFL1IPd0ky5M_08oLo59sEVZM4mL6ZA6-aAdB3BNUOmF2Uj0KYIIpNid0Upk0cHKRH_YWPTTx0D9tDj0BsbZNbw",
-                    aspect: "aspect-[4/5]"
-                  }
-                ].map((item, index) => (
-                  <div key={index} className="break-inside-avoid group relative overflow-hidden rounded-xl sm:rounded-2xl bg-[#1c3226] cursor-pointer">
-                    <div className={`relative w-full overflow-hidden ${item.aspect}`}>
-                      <div 
-                        className="w-full h-full bg-center bg-cover transition-transform duration-700 hover-zoom"
-                        style={{ backgroundImage: `url(${item.image})` }}
-                      ></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
-                      <button className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-white/10 hover:bg-white/20 backdrop-blur-md p-1.5 sm:p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 duration-300">
-                        <span className="material-symbols-outlined text-lg sm:text-xl">open_in_full</span>
-                      </button>
+              <div className="flex flex-col lg:flex-row gap-4 sm:gap-8">
+                {/* Left Panel - Categories */}
+                <div className="w-full lg:w-1/4">
+                  <div className="bg-[#1c3226] rounded-xl sm:rounded-2xl p-4 sm:p-6 sticky top-24">
+                    <h2 className="text-white text-lg sm:text-xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#2bee79]">category</span>
+                      Categories
+                    </h2>
+                    
+                    <div className="space-y-2">
+                      {categories.map((category) => (
+                        <button
+                          key={category.id}
+                          onClick={() => setSelectedCategory(category.id)}
+                          className={`w-full text-left p-3 sm:p-4 rounded-lg transition-all duration-300 ${
+                            selectedCategory === category.id
+                              ? 'bg-[#2bee79] text-[#112218] shadow-lg'
+                              : 'bg-[#234832] text-gray-300 hover:bg-[#2a523b] hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
+                                selectedCategory === category.id
+                                  ? 'bg-[#112218] text-[#2bee79]'
+                                  : 'bg-[#2bee79] text-[#112218]'
+                              }`}>
+                                <span className="material-symbols-outlined text-sm">
+                                  {category.id === 'category1' ? 'pivot_table_chart' :
+                                   category.id === 'category2' ? 'door_front' :
+                                   category.id === 'category3' ? 'architecture' :
+                                   category.id === 'category4' ? 'window' : 'grid_view'}
+                                </span>
+                              </div>
+                              <div>
+                                <h3 className="font-bold text-sm sm:text-base">{category.shortName}</h3>
+                                <p className="text-xs opacity-75 mt-1 hidden sm:block">
+                                  {category.description}
+                                </p>
+                              </div>
+                            </div>
+                            {selectedCategory === category.id && (
+                              <span className="material-symbols-outlined text-lg">chevron_right</span>
+                            )}
+                          </div>
+                        </button>
+                      ))}
                     </div>
                     
-                    <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className="text-[#2bee79] text-xs font-bold uppercase tracking-wider mb-1">{item.category}</p>
-                          <h3 className="text-white text-lg sm:text-xl font-bold leading-tight">{item.title}</h3>
-                          <p className="text-gray-400 text-xs sm:text-sm mt-1 flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[12px] sm:text-[14px]">location_on</span>
-                            {item.location}
-                          </p>
-                        </div>
+                    {/* Mobile Category Indicator */}
+                    <div className="mt-6 pt-4 border-t border-[#234832] sm:hidden">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-400">Currently viewing:</span>
+                        <span className="text-[#2bee79] font-bold">
+                          {currentCategory?.shortName}
+                        </span>
                       </div>
                     </div>
                   </div>
-                ))}
+                </div>
+                
+                {/* Right Panel - Content */}
+                <div className="w-full lg:w-3/4 animate-slideIn">
+                  <div className="bg-[#1c3226] rounded-xl sm:rounded-2xl overflow-hidden">
+                    {/* Category Header */}
+                    <div className="bg-gradient-to-r from-[#234832] to-[#1c3226] p-4 sm:p-6 border-b border-[#234832]">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="w-3 h-3 rounded-full bg-[#2bee79]"></span>
+                            <span className="text-xs font-bold uppercase tracking-widest text-[#2bee79]">
+                              {currentCategory?.shortName}
+                            </span>
+                          </div>
+                          <h2 className="text-white text-2xl sm:text-3xl md:text-4xl font-black leading-tight">
+                            {currentCategory?.name}
+                          </h2>
+                          <p className="text-gray-400 mt-2 max-w-3xl">
+                            {currentCategory?.description}
+                          </p>
+                        </div>
+                        <div className="hidden sm:flex items-center gap-2">
+                          <span className="text-xs text-gray-400">{currentContent.length} items</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Content Grid */}
+                    <div className="p-4 sm:p-6 custom-scrollbar" style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'auto' }}>
+                      {!allImagesPreloaded ? (
+                        <LoadingSpinner />
+                      ) : (
+                        <div className="space-y-6 sm:space-y-8">
+                          {currentContent.map((item, index) => (
+                            <div key={index} className="bg-[#112218] rounded-xl sm:rounded-2xl overflow-hidden animate-fadeIn">
+                              <div className="flex flex-col lg:flex-row">
+                                {/* Image */}
+                                <div className="w-full lg:w-2/5">
+                                  <div 
+                                    className="h-48 sm:h-64 lg:h-full w-full bg-cover bg-center bg-no-repeat"
+                                    style={{ 
+                                      backgroundImage: `url(${item.image})`,
+                                      backgroundSize: 'cover',
+                                      backgroundPosition: 'center'
+                                    }}
+                                  ></div>
+                                </div>
+                                
+                                {/* Content */}
+                                <div className="w-full lg:w-3/5 p-4 sm:p-6">
+                                  <h3 className="text-white text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[#2bee79]">door_front</span>
+                                    {item.title}
+                                  </h3>
+                                  
+                                  {/* Key Features */}
+                                  <div className="mb-4 sm:mb-6">
+                                    <h4 className="text-[#2bee79] font-bold mb-2 flex items-center gap-2">
+                                      <span className="material-symbols-outlined text-lg">featured_seasonal_and_gifts</span>
+                                      Key Design Features
+                                    </h4>
+                                    <ul className="space-y-2">
+                                      {item.features.map((feature, idx) => (
+                                        <li key={idx} className="flex items-start gap-2">
+                                          <span className="text-[#2bee79] mt-1">•</span>
+                                          <span className="text-gray-300 text-sm sm:text-base">{feature}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                  
+                                  {/* Common Uses */}
+                                  {item.uses && item.uses.length > 0 && (
+                                    <div>
+                                      <h4 className="text-[#2bee79] font-bold mb-2 flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-lg">location_on</span>
+                                        Common Uses
+                                      </h4>
+                                      <ul className="space-y-2">
+                                        {item.uses.map((use, idx) => (
+                                          <li key={idx} className="flex items-start gap-2">
+                                            <span className="text-[#2bee79] mt-1">•</span>
+                                            <span className="text-gray-300 text-sm sm:text-base">{use}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  )}
+                                  
+                                  {/* View Details Button */}
+                                  <div className="mt-6 pt-4 border-t border-[#234832]">
+                                    <button 
+                                      onClick={openModal}
+                                      className="flex items-center justify-center gap-2 w-full sm:w-auto bg-[#2bee79] hover:bg-[#25cc68] text-[#112218] font-bold py-2 px-4 sm:px-6 rounded-full transition-colors"
+                                    >
+                                      <span className="material-symbols-outlined">request_quote</span>
+                                      Request Custom Quote
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
+                      {/* Empty State */}
+                      {currentContent.length === 0 && (
+                        <div className="text-center py-12">
+                          <span className="material-symbols-outlined text-6xl text-gray-600 mb-4">search_off</span>
+                          <h3 className="text-xl font-bold text-gray-400 mb-2">No content available</h3>
+                          <p className="text-gray-500">Please select a different category.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -360,9 +747,11 @@ const Portfolio = () => {
               <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 items-center">
                 <div className="w-full lg:w-1/2 relative">
                   <div 
-                    className="aspect-video w-full rounded-xl sm:rounded-2xl bg-center bg-cover shadow-2xl overflow-hidden"
+                    className="aspect-video w-full rounded-xl sm:rounded-2xl bg-center bg-cover bg-no-repeat shadow-2xl overflow-hidden animate-fadeIn"
                     style={{
-                      backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-oi8kmCklIfpv8rt2eqBcu40zLqI3KNLPW2dFbFt0ucCLOHujKTUFe_PjNYWmnoKUKs6wPb19ITUokvw_Bg4QQJlw_thaK7wlmf9XoeWndEBsmKTyLftlDMpkVXwAQOadNutoK608oVKzwnbFNgE-l_nIxQDFC6KmJeQ5r7vfeAaS1fue7Zu9E2n1mIDklatc1xVSt15swMnPDDeFsf67A_4ChbXYTz_MJTxHx-L73rQkR6AH_Hx2rJ9aj6g_G8CpbLG363wihHs")'
+                      backgroundImage: `url("${allImageUrls[1]}")`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
                     }}
                   ></div>
                   
@@ -389,13 +778,7 @@ const Portfolio = () => {
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <button 
-                      onClick={openModal}
-                      className="bg-[#1c3226] text-white hover:bg-[#234832] transition-colors rounded-full px-5 sm:px-6 py-2.5 sm:py-3 font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
-                    >
-                      <span className="material-symbols-outlined text-lg">menu_book</span>
-                     Download Catalog
-                    </button>
+                   
                   </div>
                 </div>
               </div>
@@ -404,74 +787,66 @@ const Portfolio = () => {
         </main>
 
         {/* Footer */}
-           <footer className="bg-black text-white py-8 sm:py-12 border-t border-[#234832]">
-                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
-                                 {/* Brand */}
-                                 <div className="col-span-1 md:col-span-1">
-                                   <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                                     <div className="flex size-7 sm:size-8 items-center justify-center rounded-full bg-primary/20 text-primary">
-                                       <span className="material-symbols-outlined text-base sm:text-lg">door_front</span>
-                                     </div>
-                                     <Link to="/" className="text-base sm:text-lg font-bold">Alamo Steel Doors</Link>
-                                   </div>
-                                   <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
-                                     Hand-forged steel doors that define luxury and security. Elevate your entrance today.
-                                   </p>
-                                   <div className="flex gap-3 sm:gap-4">
-                                     
-                                      
-                                   
-                                   </div>
-                                 </div>
-               
-                                 {/* Portfolio Links */}
-                                 <div>
-                                   
-                                 </div>
-               
-                                 {/* Company Links */}
-                                 <div>
-                                   <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Company</h4>
-                                   <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
-                 <li><Link to="/About" className="hover:text-primary transition-colors">About Us</Link></li>
-                 <li><Link to="/Contact" className="hover:text-primary transition-colors">Contact</Link></li>
-                 <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
-               </ul>
-                                 </div>
-               
-                                 {/* Contact Info */}
-                                 <div>
-                                   <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Contact</h4>
-                                   <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
-                                     <li className="flex items-start gap-2">
-                                       <span className="material-symbols-outlined text-primary text-sm sm:text-base mt-0.5">location_on</span>
-                                       <span>1624 S San Marcos
+        <footer className="bg-black text-white py-8 sm:py-12 border-t border-[#234832]">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
+              {/* Brand */}
+              <div className="col-span-1 md:col-span-1">
+                <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                  <div className="flex size-7 sm:size-8 items-center justify-center rounded-full bg-primary/20 text-primary">
+                    <span className="material-symbols-outlined text-base sm:text-lg">door_front</span>
+                  </div>
+                  <Link to="/" className="text-base sm:text-lg font-bold">Alamo Steel Doors</Link>
+                </div>
+                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
+                  Hand-forged steel doors that define luxury and security. Elevate your entrance today.
+                </p>
+              </div>
 
-<br/>San Antonio, TX  78207</span>
-                                     </li>
-                                     <li className="flex items-center gap-2">
-                                       <span className="material-symbols-outlined text-primary text-sm sm:text-base">call</span>
-                                       (210) 596-8796
-                                     </li>
-                                     <li className="flex items-center gap-2">
-                                       <span className="material-symbols-outlined text-primary text-sm sm:text-base">mail</span>
-                                       hello@alamosteeldoors.com
-                                     </li>
-                                   </ul>
-                                 </div>
-                               </div>
-                               
-                               {/* Footer Bottom */}
-                               <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
-                                 <p className="text-gray-500 text-xs sm:text-sm">© 2025 Alamo Steel Doors. All rights reserved.</p>
-                                 <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
-                                   <a className="hover:text-white" href="#">Privacy Policy</a>
-                                   <a className="hover:text-white" href="#">Terms of Service</a>
-                                 </div>
-                               </div>
-                             </div>
-                           </footer>
+              {/* Portfolio Links */}
+              <div></div>
+
+              {/* Company Links */}
+              <div>
+                <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Company</h4>
+                <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
+                  <li><Link to="/About" className="hover:text-primary transition-colors">About Us</Link></li>
+                  <li><Link to="/Contact" className="hover:text-primary transition-colors">Contact</Link></li>
+                  <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
+                </ul>
+              </div>
+
+              {/* Contact Info */}
+              <div>
+                <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Contact</h4>
+                <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-400">
+                  <li className="flex items-start gap-2">
+                    <span className="material-symbols-outlined text-primary text-sm sm:text-base mt-0.5">location_on</span>
+                    <span>1624 S San Marcos<br/>San Antonio, TX 78207</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary text-sm sm:text-base">call</span>
+                    (210) 596-8796
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary text-sm sm:text-base">mail</span>
+                    hello@alamosteeldoors.com
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            {/* Footer Bottom */}
+            <div className="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
+              <p className="text-gray-500 text-xs sm:text-sm">© 2025 Alamo Steel Doors. All rights reserved.</p>
+              <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
+                <a className="hover:text-white" href="#">Privacy Policy</a>
+                <a className="hover:text-white" href="#">Terms of Service</a>
+              </div>
+            </div>
+          </div>
+        </footer>
+
         {/* Sticky FAB (Mobile Only) */}
         <button 
           onClick={openModal}
