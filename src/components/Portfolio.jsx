@@ -7,208 +7,104 @@ const Portfolio = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('category1');
+  const [selectedCategory, setSelectedCategory] = useState('steel-doors');
   
-  // Categories data structure
+  // Simplified categories with just two options
   const categories = [
     {
-      id: 'category1',
-      name: 'Modern Pivot Doors',
+      id: 'steel-doors',
+      name: 'Custom Steel Doors',
+      shortName: 'Steel Doors',
+      description: 'Handcrafted custom steel doors with modern and traditional designs'
+    },
+    {
+      id: 'pivot-doors',
+      name: 'Pivot Steel Doors',
       shortName: 'Pivot Doors',
       description: 'Contemporary single-pivot entry doors with clean geometric designs'
-    },
-    {
-      id: 'category2',
-      name: 'Modern Iron Entry Doors',
-      shortName: 'Iron Entry Doors',
-      description: '4-lite design steel doors with minimalist aesthetics'
-    },
-    {
-      id: 'category3',
-      name: 'Ornate Wrought Iron Doors',
-      shortName: 'Wrought Iron Doors',
-      description: 'Intricate scrollwork and Mediterranean-inspired designs'
-    },
-    {
-      id: 'category4',
-      name: 'Steel-Framed Glass Doors',
-      shortName: 'Glass Doors',
-      description: 'Crittall-style slim-profile steel and glass constructions'
-    },
-    {
-      id: 'category5',
-      name: 'Architectural Elements',
-      shortName: 'Architectural',
-      description: 'Laser-cut panels, pergolas, and decorative features'
     }
   ];
 
-  // Content data for each category
+  // City names for labeling the images (near Saint Hedwig)
+  const installationCities = [
+    'Saint Hedwig',
+    'Adkins',
+    'Elmendorf',
+    'Converse',
+    'Live Oak',
+    'Universal City',
+    'Schertz',
+    'Cibolo',
+    'Marion',
+    'Seguin',
+    'New Braunfels',
+    'Boerne'
+  ];
+
+  // Content data for each category - just images with city labels
   const categoryContent = {
-    category1: [
+    'steel-doors': [
       {
-        title: 'Modern Iron Pivot Door',
-        image: 'https://i.imgur.com/aQjsY82.jpeg',
-        features: [
-          'Architectural Style: Modern/Contemporary with geometric "ladder" style crossbars',
-          'Construction: Heavy 12-to-14 gauge wrought iron/steel with matte black finish',
-          'Glass: Large clear sections of double-paned, tempered Low-E glass',
-          'Hardware: Pivot hinge system for smooth operation',
-          'Insulation: Thermal break with foam insulation'
-        ],
-        uses: [
-          'Main entry door for contemporary luxury homes',
-          'High-security statement entrance',
-          'Focal architectural element'
-        ]
+        image: 'https://i.imgur.com/LAWwv8Q.jpeg',
+        city: installationCities[0]
+      },
+      {
+        image: 'https://i.imgur.com/6eNlUJA.jpeg',
+        city: installationCities[1]
+      },
+      {
+        image: 'https://i.imgur.com/ocozxCm.jpeg',
+        city: installationCities[2]
+      },
+      {
+        image: 'https://i.imgur.com/yKHwflR.jpeg',
+        city: installationCities[3]
+      },
+      {
+        image: 'https://i.imgur.com/JdC3bTX.jpeg',
+        city: installationCities[4]
+      },
+      {
+        image: 'https://i.imgur.com/EB4Lgt2.jpeg',
+        city: installationCities[5]
+      },
+      {
+        image: 'https://i.imgur.com/6JQscpb.jpeg',
+        city: installationCities[6]
+      },
+      {
+        image: 'https://i.imgur.com/kDU62jT.jpeg',
+        city: installationCities[7]
+      },
+      {
+        image: 'https://i.imgur.com/Wi59jkz.jpeg',
+        city: installationCities[8]
+      },
+      {
+        image: 'https://i.imgur.com/4XBrMgj.jpeg',
+        city: installationCities[9]
+      },
+      {
+        image: 'https://i.imgur.com/E0ncbFg.jpeg',
+        city: installationCities[10]
+      },
+      {
+        image: 'https://i.imgur.com/z1IXf0i.jpeg',
+        city: installationCities[11]
+      },
+      {
+        image: 'https://i.imgur.com/4Fswmeh.jpeg',
+        city: installationCities[0]
+      },
+      {
+        image: 'https://i.imgur.com/vptWVuf.jpeg',
+        city: installationCities[1]
       }
     ],
-    category2: [
+    'pivot-doors': [
       {
-        title: 'Modern Iron "4-Lite" Entry Door',
-        image: 'https://i.imgur.com/S49OC3Z.jpeg',
-        features: [
-          'Design: Four horizontal glass panels with minimalist grid pattern',
-          'Material: 12-gauge or 14-gauge steel with matte black finish',
-          'Glass: Clear Low-E tempered glass for natural light',
-          'Function: Operable glass panels for ventilation',
-          'Insulation: Polyurethane foam injection for thermal efficiency'
-        ],
-        uses: [
-          'Primary entryway for modern residential architecture',
-          'Minimalist, high-security look with abundant natural light'
-        ]
-      },
-      {
-        title: 'Modern Iron Entry Door with "Lite" Design',
-        image: 'https://i.imgur.com/fTvBHcU.jpeg',
-        features: [
-          'Pattern: 4-Lite horizontal grid balancing minimalist and structural elements',
-          'Material: Hand-forged 12-gauge or 14-gauge steel',
-          'Finish: UV and rust-resistant Architectural Black powder coating',
-          'Windows: Swing-open panels for ventilation and cleaning',
-          'Hardware: Designed for long vertical pull handles (48" to 72")'
-        ],
-        uses: [
-          'Contemporary home main entry door',
-          'Blend of modern aesthetics, high security, and functional features'
-        ]
-      }
-    ],
-    category3: [
-      {
-        title: 'Ornate Wrought Iron Entry Door',
-        image: 'https://i.imgur.com/Vs3fxuW.jpeg',
-        features: [
-          'Material: Heavy-duty forged iron or steel with powder-coated finish',
-          'Style: Mediterranean, Tuscan, or Spanish Colonial with intricate scrollwork',
-          'Glass: Dual-pane panel behind decorative ironwork',
-          'Hardware: Antique Brass or Oil-Rubbed Bronze handleset',
-          'Security: Robust iron construction with high physical security'
-        ],
-        uses: [
-          'Grand entrance for villas and estates with Mediterranean architecture',
-          'Secure yet ornate front door with scrollwork'
-        ]
-      },
-      {
-        title: 'Pair of High-End Wrought Iron & Steel Doors',
-        image: 'https://i.imgur.com/XWimiHw.jpeg',
-        features: [
-          'Styles: Mediterranean scrollwork & modern geometric designs',
-          'Finish: Durable, rust-resistant sandblast matte black powder coat',
-          'Hardware: Oil-Rubbed Bronze for Mediterranean, minimalist lever for modern',
-          'Function: Mediterranean style includes operable glass behind ironwork',
-          'Construction: High-grade materials for security and longevity'
-        ],
-        uses: [
-          'Mediterranean Style: Main entry for traditional luxury homes',
-          'Modern Style: Entry door for contemporary residences'
-        ]
-      },
-      {
-        title: 'Wrought Iron & Glass French Doors',
-        image: 'https://i.imgur.com/TSkFbT4.jpeg',
-        features: [
-          'Materials: Wrought iron scrollwork over frosted privacy glass',
-          'Finish: Rich reddish-brown wood grain finish mimicking mahogany',
-          'Style: Mediterranean or Tuscan-style double French doors',
-          'Panels: Often feature independently operable glass panels',
-          'Durability: Superior weather resistance with wood aesthetic'
-        ],
-        uses: [
-          'Grand main entryway statement',
-          'Secure patio or terrace access in luxury homes',
-          'Security with natural light and ornate design'
-        ]
-      }
-    ],
-    category4: [
-      {
-        title: 'Modern Steel-Framed "Crittall-Style" Glass Door',
-        image: 'https://i.imgur.com/xA177EI.jpeg',
-        features: [
-          'Ultra-Slim Sightlines: Steel/aluminum frames as slim as 22mm',
-          'Grid Aesthetic: Thin horizontal and vertical bars (muntins)',
-          'Finish: Durable matte black powder coating',
-          'Hardware: Long tubular pull handles or minimalist lever-lock',
-          'Performance: Double-glazed tempered glass with thermal breaks'
-        ],
-        uses: [
-          'Interior room dividers in modern lofts',
-          'Exterior patio doors or main entries',
-          'Commercial storefronts or office partitions'
-        ]
-      }
-    ],
-    category5: [
-      {
-        title: 'CNC Laser-Cut Decorative Panels',
-        image: 'https://i.imgur.com/aEawKL6.jpeg',
-        features: [
-          'Patterns: Geometric, abstract, or nature-inspired designs',
-          'Materials: Aluminum or stainless steel with powder coating',
-          'Lighting: Create dynamic "light and shadow" patterns',
-          'Function: Privacy screens with 100% ventilation',
-          'Durability: Rust-proof, weather-resistant, low maintenance'
-        ],
-        uses: [
-          'Balcony railings and privacy screens',
-          'Decorative exterior feature walls',
-          'Interior architectural accents with backlighting'
-        ]
-      },
-      {
-        title: 'Modern Slatted Pergolas & Roof Systems',
-        image: 'https://i.imgur.com/TSTPtRM.jpeg',
-        features: [
-          'Materials: Dark metal frames with warm wood slats',
-          'Lighting: Built-in LED strips or festoon lights',
-          'Design: Sleek profiles with cantilevered options',
-          'Function: Adjustable shade with partial UV blocking',
-          'Weather: Motorized tilting or retractable slats available'
-        ],
-        uses: [
-          'Cover for outdoor kitchens and dining areas',
-          'Permanent shade over patios and poolside areas',
-          'Defining "outdoor room" spaces'
-        ]
-      },
-      {
-        title: 'Architectural Laser-Cut Metal Panels',
-        image: 'https://i.imgur.com/TykkxFm.jpeg',
-        features: [
-          'Precision: CNC technology for intricate designs',
-          'Dynamic Effects: Creates shifting patterns with sunlight',
-          'Finishes: Matte black, charcoal, or metallic tones',
-          'Integration: Seamlessly incorporated into larger structures',
-          'Climate Control: Reduces heat gain by blocking UV rays'
-        ],
-        uses: [
-          'Screens for balconies, patios, and pool enclosures',
-          'Integrated ceilings in modern pergolas',
-          'Architectural feature walls with lighting effects'
-        ]
+        image: 'https://i.imgur.com/C4fD2Zm.jpeg',
+        city: installationCities[5]
       }
     ]
   };
@@ -414,31 +310,17 @@ const Portfolio = () => {
           )}
         </header>
 
-        {/* Main Content - Two Panel Layout */}
+        {/* Main Content */}
         <main className="flex-1 bg-[#112218]">
-          {/* Hero Section */}
-          <section className="relative">
-            <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex flex-col items-center justify-center min-h-[300px] sm:min-h-[350px] relative overflow-hidden">
-              <div 
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-                style={{
-                  backgroundImage: 'linear-gradient(rgba(16, 34, 23, 0.7) 0%, rgba(16, 34, 23, 0.9) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcgtErFOcB399kokg6F0Wvcfi0R6ybcvvn_TKw6zyNNzBkO3LWQv8iABMCSHZCCqzUXeRGpyYRxepr0YHFqHems1iot3ARGlq5MHtx2pPgMEGkRbEepf9A0_n_wDCyJoOZPBTYIUb6x04pSdUHHkEkrVo2W8iIUjdPf1MbE9JXScRmGhlCB01qbkPaOKYdOd7mMmIjjBjMcd8F8j-kafgc0FnTRqThCVnp7VGwmZsa_gRwTAIglOZ9E7lC1p3qxCaocBlO2LPavao")'
-                }}
-              ></div>
-              
-              <div className="relative z-10 flex flex-col gap-4 text-center max-w-4xl mx-auto">
-                <div className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 w-fit mx-auto">
-                  <span className="w-2 h-2 rounded-full bg-[#2bee79] animate-pulse"></span>
-                  <span className="text-xs font-medium text-white tracking-wide uppercase">Product Catalog</span>
-                </div>
-                
-                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] px-2">
-                  Our Collection
-                </h1>
-                
-                <p className="text-gray-300 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto px-4">
-                  Explore our range of handcrafted steel doors and architectural elements. Select a category to view detailed specifications and applications.
-                </p>
+          {/* Portfolio Section Header */}
+          <section className="w-full py-8 sm:py-12 max-w-[1280px] mx-auto px-4 sm:px-6 bg-[#112218]">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 gap-4 sm:gap-6">
+              <div>
+                <span className="text-[#2bee79] font-bold uppercase tracking-wider text-xs sm:text-sm mb-2 block">Our Portfolio</span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white">Popular Collections</h2>
+              </div>
+              <div className="text-gray-300 font-medium">
+                Browse our custom steel doors collection
               </div>
             </div>
           </section>
@@ -452,7 +334,7 @@ const Portfolio = () => {
                   <div className="bg-[#1c3226] rounded-xl sm:rounded-2xl p-4 sm:p-6 sticky top-24">
                     <h2 className="text-white text-lg sm:text-xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
                       <span className="material-symbols-outlined text-[#2bee79]">category</span>
-                      Categories
+                      Door Types
                     </h2>
                     
                     <div className="space-y-2">
@@ -474,10 +356,7 @@ const Portfolio = () => {
                                   : 'bg-[#2bee79] text-[#112218]'
                               }`}>
                                 <span className="material-symbols-outlined text-sm">
-                                  {category.id === 'category1' ? 'pivot_table_chart' :
-                                   category.id === 'category2' ? 'door_front' :
-                                   category.id === 'category3' ? 'architecture' :
-                                   category.id === 'category4' ? 'window' : 'grid_view'}
+                                  {category.id === 'steel-doors' ? 'door_front' : 'pivot_table_chart'}
                                 </span>
                               </div>
                               <div>
@@ -528,77 +407,38 @@ const Portfolio = () => {
                           </p>
                         </div>
                         <div className="hidden sm:flex items-center gap-2">
-                          <span className="text-xs text-gray-400">{currentContent.length} items</span>
+                          
                         </div>
                       </div>
                     </div>
                     
-                    {/* Content Grid */}
-                    <div className="p-4 sm:p-6 custom-scrollbar" style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'auto' }}>
-                      <div className="space-y-6 sm:space-y-8">
+                    {/* Content Grid - Larger Images like Screenshot */}
+                    <div className="p-4 sm:p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
                         {currentContent.map((item, index) => (
-                          <div key={index} className="bg-[#112218] rounded-xl sm:rounded-2xl overflow-hidden">
-                            <div className="flex flex-col lg:flex-row">
-                              {/* Image */}
-                              <div className="w-full lg:w-2/5">
-                                <div 
-                                  className="h-48 sm:h-64 lg:h-full w-full bg-cover bg-center"
-                                  style={{ backgroundImage: `url(${item.image})` }}
-                                ></div>
-                              </div>
-                              
-                              {/* Content */}
-                              <div className="w-full lg:w-3/5 p-4 sm:p-6">
-                                <h3 className="text-white text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
-                                  <span className="material-symbols-outlined text-[#2bee79]">door_front</span>
-                                  {item.title}
+                          <div 
+                            key={index} 
+                            className="group relative aspect-[4/5] rounded-xl sm:rounded-2xl overflow-hidden bg-[#193324] block"
+                          >
+                            <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-700">
+                              <div 
+                                className="w-full h-full bg-cover bg-center"
+                                style={{ backgroundImage: `url(${item.image})` }}
+                              ></div>
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent/10"></div>
+                            <div className="absolute bottom-0 left-0 p-4 sm:p-6 lg:p-8 w-full">
+                              <div className="flex items-center gap-2 mb-2">
+                                <span className="material-symbols-outlined text-[#2bee79] text-sm">location_on</span>
+                                <h3 className="text-xl sm:text-2xl font-bold text-white">
+                                  
                                 </h3>
-                                
-                                {/* Key Features */}
-                                <div className="mb-4 sm:mb-6">
-                                  <h4 className="text-[#2bee79] font-bold mb-2 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-lg">featured_seasonal_and_gifts</span>
-                                    Key Design Features
-                                  </h4>
-                                  <ul className="space-y-2">
-                                    {item.features.map((feature, idx) => (
-                                      <li key={idx} className="flex items-start gap-2">
-                                        <span className="text-[#2bee79] mt-1">•</span>
-                                        <span className="text-gray-300 text-sm sm:text-base">{feature}</span>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                                
-                                {/* Common Uses */}
-                                {item.uses && item.uses.length > 0 && (
-                                  <div>
-                                    <h4 className="text-[#2bee79] font-bold mb-2 flex items-center gap-2">
-                                      <span className="material-symbols-outlined text-lg">location_on</span>
-                                      Common Uses
-                                    </h4>
-                                    <ul className="space-y-2">
-                                      {item.uses.map((use, idx) => (
-                                        <li key={idx} className="flex items-start gap-2">
-                                          <span className="text-[#2bee79] mt-1">•</span>
-                                          <span className="text-gray-300 text-sm sm:text-base">{use}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                
-                                {/* View Details Button */}
-                                <div className="mt-6 pt-4 border-t border-[#234832]">
-                                  <button 
-                                    onClick={openModal}
-                                    className="flex items-center justify-center gap-2 w-full sm:w-auto bg-[#2bee79] hover:bg-[#25cc68] text-[#112218] font-bold py-2 px-4 sm:px-6 rounded-full transition-colors"
-                                  >
-                                    <span className="material-symbols-outlined">request_quote</span>
-                                    Request Custom Quote
-                                  </button>
-                                </div>
                               </div>
+                              <p className="text-gray-300 text-xs sm:text-sm line-clamp-2 mb-3 sm:mb-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 duration-300">
+                                {selectedCategory === 'steel-doors' 
+                                  ? 'Custom steel door with handcrafted details and durable construction'
+                                  : 'Contemporary pivot door with clean geometric design and smooth operation'}
+                              </p>
                             </div>
                           </div>
                         ))}
@@ -608,11 +448,22 @@ const Portfolio = () => {
                       {currentContent.length === 0 && (
                         <div className="text-center py-12">
                           <span className="material-symbols-outlined text-6xl text-gray-600 mb-4">search_off</span>
-                          <h3 className="text-xl font-bold text-gray-400 mb-2">No content available</h3>
+                          <h3 className="text-xl font-bold text-gray-400 mb-2">No images available</h3>
                           <p className="text-gray-500">Please select a different category.</p>
                         </div>
                       )}
                     </div>
+                  </div>
+                  
+                  {/* Request Quote Button (at bottom instead of on each image) */}
+                  <div className="mt-6 text-center">
+                    <button 
+                      onClick={openModal}
+                      className="inline-flex items-center justify-center gap-2 bg-[#2bee79] hover:bg-[#25cc68] text-[#112218] font-bold py-3 px-6 sm:px-8 rounded-full transition-colors text-sm sm:text-base"
+                    >
+                      <span className="material-symbols-outlined">request_quote</span>
+                      Request Custom Quote for {currentCategory?.shortName}
+                    </button>
                   </div>
                 </div>
               </div>
